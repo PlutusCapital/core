@@ -11,6 +11,14 @@ for i in "$@"; do # access each element of array
     echo "addnode = $i" >> /pivx.conf
 done
 
+echo "port = 11011" >> /pivx.conf
+echo "keypool = 1" >> /pivx.conf
 echo "gen = 1" >> /pivx.conf
 
-cd /app && ./pivxd -conf=pivx.conf
+# check="true"
+# if [$GEN == $check]
+then
+    echo "gen = 1" >> /pivx.conf
+fi
+
+./app/pivxd -datadir=/app -printtoconsole

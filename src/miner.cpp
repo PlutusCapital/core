@@ -672,25 +672,25 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
             }
 
             //control the amount of times the client will check for mintable coins
-            if ((GetTime() - nMintableLastCheck > 5 * 60)) // 5 minute check time
-            {
-                nMintableLastCheck = GetTime();
-                fMintableCoins = pwallet->MintableCoins();
-                stakingBalance = pwallet->GetStakingBalance(fColdStake);
-            }
+            // if ((GetTime() - nMintableLastCheck > 5 * 60)) // 5 minute check time
+            // {
+            //     nMintableLastCheck = GetTime();
+            //     fMintableCoins = pwallet->MintableCoins();
+            //     stakingBalance = pwallet->GetStakingBalance(fColdStake);
+            // }
 
-            while (vNodes.empty() || pwallet->IsLocked() || !fMintableCoins ||
-                   (stakingBalance > 0 && nReserveBalance >= stakingBalance) || masternodeSync.NotCompleted()) {
-                nLastCoinStakeSearchInterval = 0;
-                MilliSleep(5000);
-                // Do a separate 1 minute check here to ensure fMintableCoins is updated
-                if (!fMintableCoins && (GetTime() - nMintableLastCheck > 1 * 60)) // 1 minute check time
-                {
-                    nMintableLastCheck = GetTime();
-                    fMintableCoins = pwallet->MintableCoins();
-                    stakingBalance = pwallet->GetStakingBalance(fColdStake);
-                }
-            }
+            // while (vNodes.empty() || pwallet->IsLocked() || !fMintableCoins ||
+            //        (stakingBalance > 0 && nReserveBalance >= stakingBalance) || masternodeSync.NotCompleted()) {
+            //     nLastCoinStakeSearchInterval = 0;
+            //     MilliSleep(5000);
+            //     // Do a separate 1 minute check here to ensure fMintableCoins is updated
+            //     if (!fMintableCoins && (GetTime() - nMintableLastCheck > 1 * 60)) // 1 minute check time
+            //     {
+            //         nMintableLastCheck = GetTime();
+            //         fMintableCoins = pwallet->MintableCoins();
+            //         stakingBalance = pwallet->GetStakingBalance(fColdStake);
+            //     }
+            // }
 
             //search our map of hashed blocks, see if bestblock has been hashed yet
             if (mapHashedBlocks.count(chainActive.Tip()->nHeight) && !fLastLoopOrphan)

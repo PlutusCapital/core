@@ -1,12 +1,6 @@
 {
     "files.associations": {
         "*.json": "javascript",
-        "array": "cpp",
-        "*.tcc": "cpp",
-        "functional": "cpp",
-        "future": "cpp",
-        "istream": "cpp",
-        "tuple": "cpp",
-        "utility": "cpp"
+        "*.tcc": "cpp"
     }
 }

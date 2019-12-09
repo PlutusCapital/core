@@ -126,7 +126,7 @@ bool CChainParams::HasStakeMinAgeOrDepth(const int contextHeight, const uint32_t
 
     // before stake modifier V2, the age required was 60 * 60 (1 hour) / not required on regtest
     if (!IsStakeModifierV2(contextHeight))
-        return (utxoFromBlockTime + 3600 <= contextTime);
+        return (utxoFromBlockTime <= contextTime);
 
     // after stake modifier V2, we require the utxo to be nStakeMinDepth deep in the chain
     return (contextHeight - utxoFromBlockHeight >= nStakeMinDepth);
@@ -150,7 +150,7 @@ public:
         pchMessageStart[3] = 0xe9;
         vAlertPubKey = ParseHex("0000098d3ba6ba6e7423fa5cbd6a89e0a9a5348f88d332b44a5cb1a8b7ed2c1eaa335fc8dc4f012cb8241cc0bdafd6ca70c5f5448916e4e6f511bcd746ed57dc50");
         nDefaultPort = 51472;
-        bnProofOfWorkLimit = ~uint256(0) >> 20; // PIVX starting difficulty is 1 / 2^12
+        bnProofOfWorkLimit = ~uint256(0) >> 15; // PIVX starting difficulty is 1 / 2^12
         nSubsidyHalvingInterval = 210000;
         nMaxReorganizationDepth = 100;
         nEnforceBlockUpgradeMajority = 8100; // 75%
@@ -158,21 +158,21 @@ public:
         nToCheckBlockUpgradeMajority = 10800; // Approximate expected amount of blocks in 7 days (1440*7.5)
         nMinerThreads = 1;
         nTargetSpacing = 1 * 60;        // 1 minute
-        nMaturity = 100;
-        nStakeMinDepth = 600;
+        nMaturity = 0;
+        nStakeMinDepth = 0;
         nFutureTimeDriftPoW = 7200;
         nFutureTimeDriftPoS = 180;
         nMasternodeCountDrift = 20;
         nMaxMoneyOut = 21000000 * COIN;
-        nMinColdStakingAmount = 1 * COIN;
+        nMinColdStakingAmount = 0 * COIN;
 
         /** Height or Time Based Activations **/
-        nLastPOWBlock = 100;
-        nPivxBadBlockTime = 1471401614; // Skip nBit validation of Block 259201 per PR #915
+        nLastPOWBlock = 70;
+        nPivxBadBlockTime = 1671401614; // Skip nBit validation of Block 259201 per PR #915
         nPivxBadBlocknBits = 0x1c056dac; // Skip nBit validation of Block 259201 per PR #915
         nModifierUpdateBlock = 615800;
         nZerocoinStartHeight = 863787;
-        nZerocoinStartTime = 1508214600; // October 17, 2017 4:30:00 AM
+        nZerocoinStartTime = 1588214600; // October 17, 2017 4:30:00 AM
         nBlockEnforceSerialRange = 895400; //Enforce serial range starting this block
         nBlockRecalculateAccumulators = 908000; //Trigger a recalculation of accumulators
         nBlockFirstFraudulent = 891737; //First block that bad serials emerged
@@ -181,9 +181,9 @@ public:
         nInvalidAmountFiltered = 268200*COIN; //Amount of invalid coins filtered through exchanges, that should be considered valid
         nBlockZerocoinV2 = 1153160; //!> The block that zerocoin v2 becomes active - roughly Tuesday, May 8, 2018 4:00:00 AM GMT
         nBlockDoubleAccumulated = 1050010;
-        nEnforceNewSporkKey = 1566860400; //!> Sporks signed after Monday, August 26, 2019 11:00:00 PM GMT must use the new spork key
-        nRejectOldSporkKey = 1569538800; //!> Fully reject old spork key after Thursday, September 26, 2019 11:00:00 PM GMT
-        nBlockStakeModifierlV2 = 1967000;
+        nEnforceNewSporkKey = 1586860400; //!> Sporks signed after Monday, August 26, 2019 11:00:00 PM GMT must use the new spork key
+        nRejectOldSporkKey = 1589538800; //!> Fully reject old spork key after Thursday, September 26, 2019 11:00:00 PM GMT
+        nBlockStakeModifierlV2 = 71;
         nBIP65ActivationHeight = 1808634;
 
         // Public coin spend enforcement
@@ -212,7 +212,7 @@ public:
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
         txNew.vout[0].nValue = 250 * COIN;
-        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04978AB3D7B23E5DE702821CDF4C9B26148BC95B714232F7870DD7B1BD15694D3130D368C653FDE89C6D1BEE1811EF347192DD2B8982221385811AFFB3B72D5B63") << OP_CHECKSIG;
+        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04c10e83b2703ccf322f7dbd62dd5855ac7c10bd055814ce121ba32607d573b8810c02c0582aed05b4deb9c4b77b26d92428c61256cd42774babea0a073b2ed0c9") << OP_CHECKSIG;
         genesis.vtx.push_back(txNew);
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
@@ -256,7 +256,7 @@ public:
         strSporkPubKey = "040F129DE6546FE405995329A887329BED4321325B1A73B0A257423C05C1FCFE9E40EF0678AEF59036A22C42E61DFD29DF7EFB09F56CC73CADF64E05741880E3E7";
         strSporkPubKeyOld = "0499A7AF4806FC6DE640D23BC5936C29B77ADF2174B4F45492727F897AE63CF8D27B2F05040606E0D14B547916379FA10716E344E745F880EDC037307186AA25B7";
         strObfuscationPoolDummyAddress = "D87q2gC9j6nNrnzCsg4aY6bHMLsT9nUhEw";
-        nStartMasternodePayments = 1403728576; //Wed, 25 Jun 2014 20:36:16 GMT
+        nStartMasternodePayments = 1583728576; //Wed, 25 Jun 2014 20:36:16 GMT
 
         /** Zerocoin */
         zerocoinModulus = "25195908475657893494027183240048398571429282126204032027777137836043662020707595556264018525880784"
@@ -271,8 +271,8 @@ public:
         nMintRequiredConfirmations = 20; //the maximum amount of confirmations until accumulated in 19
         nRequiredAccumulation = 1;
         nDefaultSecurityLevel = 100; //full security level for accumulators
-        nZerocoinHeaderVersion = 4; //Block headers must be this version once zerocoin is active
-        nZerocoinRequiredStakeDepth = 200; //The required confirmations for a zpiv to be stakable
+        nZerocoinHeaderVersion = 7; //Block headers must be this version once zerocoin is active
+        nZerocoinRequiredStakeDepth = 5; //The required confirmations for a zpiv to be stakable
 
         nBudget_Fee_Confirmations = 6; // Number of confirmations for the finalization fee
         nProposalEstablishmentTime = 60 * 60 * 24; // Proposals must be at least a day old to make it into a budget
@@ -305,13 +305,13 @@ public:
         nEnforceBlockUpgradeMajority = 4320; // 75%
         nRejectBlockOutdatedMajority = 5472; // 95%
         nToCheckBlockUpgradeMajority = 5760; // 4 days
-        nMinerThreads = 0;
+        nMinerThreads = 1;
         nTargetSpacing = 1 * 60;  // PIVX: 1 minute
-        nLastPOWBlock = 200;
+        nLastPOWBlock = 10;
         nPivxBadBlockTime = 1489001494; // Skip nBit validation of Block 259201 per PR #915
         nPivxBadBlocknBits = 0x1e0a20bd; // Skip nBit validation of Block 201 per PR #915
-        nMaturity = 15;
-        nStakeMinDepth = 100;
+        nMaturity = 5;
+        nStakeMinDepth = 5;
         nMasternodeCountDrift = 4;
         nModifierUpdateBlock = 51197; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 43199500 * COIN;

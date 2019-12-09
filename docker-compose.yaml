@@ -1,0 +1,30 @@
+version: "3.5"
+
+volumes:
+  node-0:
+  node-1:
+
+services:
+  n0:
+    build: .
+    command: ['sh', '-c', '/app/entrypoint.sh']
+    environment:
+      REMOTES: '192.168.10.187:11011,192.168.10.187:11012'
+      GEN: 'true'
+    ports:
+      - "0.0.0.0:11011:11011"
+    volumes:
+      - node-0:/data
+    restart: always
+
+  n1:
+    build: .
+    command: ['sh', '-c', '/app/entrypoint.sh']
+    environment:
+      REMOTES: '192.168.10.187:11011,192.168.10.187:11012'
+      GEN: 'true'
+    ports:
+      - "0.0.0.0:11012:11011"
+    volumes:
+      - node-1:/data
+    restart: always
