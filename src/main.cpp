@@ -4628,8 +4628,8 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
         return state.DoS(1, error("%s: forked chain older than max reorganization depth (height %d)", __func__, chainActive.Height() - nHeight));
 
     // Check blocktime against prev (WANT: blk_time > MedianTimePast)
-    if (Params().NetworkID() != CBaseChainParams::REGTEST && block.GetBlockTime() <= pindexPrev->GetMedianTimePast())
-        return state.DoS(50, error("%s : block timestamp too old", __func__), REJECT_INVALID, "time-too-old");
+    // if (Params().NetworkID() != CBaseChainParams::REGTEST && block.GetBlockTime() <= pindexPrev->GetMedianTimePast())
+    //     return state.DoS(50, error("%s : block timestamp too old", __func__), REJECT_INVALID, "time-too-old");
 
     // Check that the block chain matches the known block chain up to a checkpoint
     if (!Checkpoints::CheckBlock(nHeight, hash))
