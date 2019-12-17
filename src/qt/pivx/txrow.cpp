@@ -1,12 +1,12 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/txrow.h"
-#include "qt/pivx/forms/ui_txrow.h"
+#include "qt/plutus/txrow.h"
+#include "qt/plutus/forms/ui_txrow.h"
 
 #include "guiutil.h"
-#include "qt/pivx/qtutils.h"
+#include "qt/plutus/qtutils.h"
 
 TxRow::TxRow(QWidget *parent) :
     QWidget(parent),
@@ -59,7 +59,7 @@ void TxRow::setType(bool isLightTheme, int type, bool isConfirmed){
             css = "text-list-amount-send";
             break;
         case TransactionRecord::Generated:
-        case TransactionRecord::StakeZPIV:
+        case TransactionRecord::StakeZPLT:
         case TransactionRecord::MNReward:
         case TransactionRecord::StakeMint:
             path = "://ic-transaction-staked";
@@ -75,7 +75,7 @@ void TxRow::setType(bool isLightTheme, int type, bool isConfirmed){
         case TransactionRecord::SendToAddress:
         case TransactionRecord::SendToOther:
         case TransactionRecord::ZerocoinSpend:
-        case TransactionRecord::ZerocoinSpend_Change_zPiv:
+        case TransactionRecord::ZerocoinSpend_Change_zPlt:
         case TransactionRecord::ZerocoinSpend_FromMe:
             path = "://ic-transaction-sent";
             css = "text-list-amount-send";

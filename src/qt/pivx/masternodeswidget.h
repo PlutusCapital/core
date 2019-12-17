@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,13 +6,13 @@
 #define MASTERNODESWIDGET_H
 
 #include <QWidget>
-#include "qt/pivx/pwidget.h"
-#include "qt/pivx/furabstractlistitemdelegate.h"
-#include "qt/pivx/mnmodel.h"
-#include "qt/pivx/tooltipmenu.h"
+#include "qt/plutus/pwidget.h"
+#include "qt/plutus/furabstractlistitemdelegate.h"
+#include "qt/plutus/mnmodel.h"
+#include "qt/plutus/tooltipmenu.h"
 #include <QTimer>
 
-class PIVXGUI;
+class PLUTUSGUI;
 
 namespace Ui {
 class MasterNodesWidget;
@@ -28,7 +28,7 @@ class MasterNodesWidget : public PWidget
 
 public:
 
-    explicit MasterNodesWidget(PIVXGUI *parent = nullptr);
+    explicit MasterNodesWidget(PLUTUSGUI *parent = nullptr);
     ~MasterNodesWidget();
 
     void loadWalletModel() override;

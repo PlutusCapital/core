@@ -1,20 +1,20 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/settings/settingswidget.h"
-#include "qt/pivx/settings/forms/ui_settingswidget.h"
-#include "qt/pivx/settings/settingsbackupwallet.h"
-#include "qt/pivx/settings/settingsbittoolwidget.h"
-#include "qt/pivx/settings/settingswalletrepairwidget.h"
-#include "qt/pivx/settings/settingswalletoptionswidget.h"
-#include "qt/pivx/settings/settingsmainoptionswidget.h"
-#include "qt/pivx/settings/settingsdisplayoptionswidget.h"
-#include "qt/pivx/settings/settingsmultisendwidget.h"
-#include "qt/pivx/settings/settingsinformationwidget.h"
-#include "qt/pivx/settings/settingsconsolewidget.h"
-#include "qt/pivx/qtutils.h"
-#include "qt/pivx/defaultdialog.h"
+#include "qt/plutus/settings/settingswidget.h"
+#include "qt/plutus/settings/forms/ui_settingswidget.h"
+#include "qt/plutus/settings/settingsbackupwallet.h"
+#include "qt/plutus/settings/settingsbittoolwidget.h"
+#include "qt/plutus/settings/settingswalletrepairwidget.h"
+#include "qt/plutus/settings/settingswalletoptionswidget.h"
+#include "qt/plutus/settings/settingsmainoptionswidget.h"
+#include "qt/plutus/settings/settingsdisplayoptionswidget.h"
+#include "qt/plutus/settings/settingsmultisendwidget.h"
+#include "qt/plutus/settings/settingsinformationwidget.h"
+#include "qt/plutus/settings/settingsconsolewidget.h"
+#include "qt/plutus/qtutils.h"
+#include "qt/plutus/defaultdialog.h"
 #include "optionsmodel.h"
 #include "clientmodel.h"
 #include "utilitydialog.h"
@@ -22,7 +22,7 @@
 #include <QScrollBar>
 #include <QDataWidgetMapper>
 
-SettingsWidget::SettingsWidget(PIVXGUI* parent) :
+SettingsWidget::SettingsWidget(PLUTUSGUI* parent) :
     PWidget(parent),
     ui(new Ui::SettingsWidget)
 {

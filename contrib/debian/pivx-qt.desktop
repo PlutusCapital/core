@@ -1,13 +1,13 @@
 [Desktop Entry]
 Version=1.0
-Name=PIVX Core
-Comment=PIVX P2P Cryptocurrency
-Comment[fr]=PIVX, monnaie virtuelle cryptographique pair à pair
-Comment[tr]=PIVX, eşten eşe kriptografik sanal para birimi
-Exec=pivx-qt %u
+Name=PLUTUS Core
+Comment=PLUTUS P2P Cryptocurrency
+Comment[fr]=PLUTUS, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=PLUTUS, eşten eşe kriptografik sanal para birimi
+Exec=plutus-qt %u
 Terminal=false
 Type=Application
-Icon=pivx128
-MimeType=x-scheme-handler/pivx;
+Icon=plutus128
+MimeType=x-scheme-handler/plutus;
 Categories=Office;Finance;
-StartupWMClass=Pivx-qt
+StartupWMClass=Plutus-qt

@@ -1,8 +1,8 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/mnmodel.h"
+#include "qt/plutus/mnmodel.h"
 #include "masternode-sync.h"
 #include "masternodeman.h"
 #include "activemasternode.h"

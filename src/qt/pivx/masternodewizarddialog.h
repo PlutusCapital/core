@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,7 +7,7 @@
 
 #include <QDialog>
 #include "walletmodel.h"
-#include "qt/pivx/snackbar.h"
+#include "qt/plutus/snackbar.h"
 #include "masternodeconfig.h"
 
 class WalletModel;

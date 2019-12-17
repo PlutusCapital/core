@@ -9,7 +9,7 @@
             "name": "gcc build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/src/pivxd",
+            "program": "${workspaceFolder}/src/plutusd",
             "args": ["-printtoconsole", "-keypool=1"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

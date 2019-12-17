@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,7 +17,7 @@
 #include <QPixmap>
 #include <QStandardPaths>
 #include <initializer_list>
-#include "qt/pivx/pivxgui.h"
+#include "qt/plutus/plutusgui.h"
 
 // Repair parameters
 const QString SALVAGEWALLET("-salvagewallet");
@@ -31,11 +31,11 @@ const QString RESYNC("-resync");
 extern Qt::Modifier SHORT_KEY;
 
 bool openDialog(QDialog *widget, QWidget *gui);
-void closeDialog(QDialog *widget, PIVXGUI *gui);
+void closeDialog(QDialog *widget, PLUTUSGUI *gui);
 void openDialogFullScreen(QWidget *parent, QWidget * dialog);
-bool openDialogWithOpaqueBackgroundY(QDialog *widget, PIVXGUI *gui, double posX = 3, int posY = 5);
-bool openDialogWithOpaqueBackground(QDialog *widget, PIVXGUI *gui, double posX = 3);
-bool openDialogWithOpaqueBackgroundFullScreen(QDialog *widget, PIVXGUI *gui);
+bool openDialogWithOpaqueBackgroundY(QDialog *widget, PLUTUSGUI *gui, double posX = 3, int posY = 5);
+bool openDialogWithOpaqueBackground(QDialog *widget, PLUTUSGUI *gui, double posX = 3);
+bool openDialogWithOpaqueBackgroundFullScreen(QDialog *widget, PLUTUSGUI *gui);
 
 //
 QPixmap encodeToQr(QString str, QString &errorStr, QColor qrColor = Qt::black);

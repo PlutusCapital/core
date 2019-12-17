@@ -108,7 +108,7 @@
              <number>0</number>
             </property>
             <item alignment="Qt::AlignTop">
-             <widget class="QLabel" name="labelAmountTopPiv">
+             <widget class="QLabel" name="labelAmountTopPlt">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -119,7 +119,7 @@
                <string notr="true">padding:0px;margin:0px;</string>
               </property>
               <property name="text">
-               <string>480.0685 PIV</string>
+               <string>480.0685 PLT</string>
               </property>
              </widget>
             </item>
@@ -180,7 +180,7 @@ border:none;</string>
              </spacer>
             </item>
             <item alignment="Qt::AlignTop">
-             <widget class="QLabel" name="labelAmountTopzPiv">
+             <widget class="QLabel" name="labelAmountTopzPlt">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -188,7 +188,7 @@ border:none;</string>
                </size>
               </property>
               <property name="text">
-               <string>1,000 zPIV</string>
+               <string>1,000 zPLT</string>
               </property>
              </widget>
             </item>
@@ -396,9 +396,9 @@ border:none;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="labelAmountPiv">
+                <widget class="QLabel" name="labelAmountPlt">
                  <property name="text">
-                  <string>480.0685 PIV</string>
+                  <string>480.0685 PLT</string>
                  </property>
                 </widget>
                </item>
@@ -419,9 +419,9 @@ border:none;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="labelPendingPiv">
+                  <widget class="QLabel" name="labelPendingPlt">
                    <property name="text">
-                    <string>6.943 PIV</string>
+                    <string>6.943 PLT</string>
                    </property>
                   </widget>
                  </item>
@@ -453,9 +453,9 @@ border:none;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="labelImmaturePiv">
+                  <widget class="QLabel" name="labelImmaturePlt">
                    <property name="text">
-                    <string>10 PIV</string>
+                    <string>10 PLT</string>
                    </property>
                   </widget>
                  </item>
@@ -507,9 +507,9 @@ border:none;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="labelAmountzPiv">
+                <widget class="QLabel" name="labelAmountzPlt">
                  <property name="text">
-                  <string>1,000 zPIV</string>
+                  <string>1,000 zPLT</string>
                  </property>
                 </widget>
                </item>
@@ -530,9 +530,9 @@ border:none;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="labelPendingzPiv">
+                  <widget class="QLabel" name="labelPendingzPlt">
                    <property name="text">
-                    <string>60 zPIV</string>
+                    <string>60 zPLT</string>
                    </property>
                   </widget>
                  </item>
@@ -564,9 +564,9 @@ border:none;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="labelImmaturezPiv">
+                  <widget class="QLabel" name="labelImmaturezPlt">
                    <property name="text">
-                    <string>10 zPIV</string>
+                    <string>10 zPLT</string>
                    </property>
                   </widget>
                  </item>
@@ -702,7 +702,7 @@ border:none;</string>
   <customwidget>
    <class>ExpandableButton</class>
    <extends>QWidget</extends>
-   <header>qt/pivx/expandablebutton.h</header>
+   <header>qt/plutus/expandablebutton.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -1,11 +1,11 @@
 Sample configuration files for:
 ```
-SystemD: pivxd.service
-Upstart: pivxd.conf
-OpenRC:  pivxd.openrc
-         pivxd.openrcconf
-CentOS:  pivxd.init
-macOS:    org.pivx.pivxd.plist
+SystemD: plutusd.service
+Upstart: plutusd.conf
+OpenRC:  plutusd.openrc
+         plutusd.openrcconf
+CentOS:  plutusd.init
+macOS:    org.plutus.plutusd.plist
 ```
 have been made available to assist packagers in creating node packages here.
 

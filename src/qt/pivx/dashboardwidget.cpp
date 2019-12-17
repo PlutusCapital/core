@@ -1,12 +1,12 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/dashboardwidget.h"
-#include "qt/pivx/forms/ui_dashboardwidget.h"
-#include "qt/pivx/sendconfirmdialog.h"
-#include "qt/pivx/txrow.h"
-#include "qt/pivx/qtutils.h"
+#include "qt/plutus/dashboardwidget.h"
+#include "qt/plutus/forms/ui_dashboardwidget.h"
+#include "qt/plutus/sendconfirmdialog.h"
+#include "qt/plutus/txrow.h"
+#include "qt/plutus/qtutils.h"
 #include "guiutil.h"
 #include "walletmodel.h"
 #include "clientmodel.h"
@@ -23,7 +23,7 @@
 #define REQUEST_LOAD_TASK 1
 #define CHART_LOAD_MIN_TIME_INTERVAL 15
 
-DashboardWidget::DashboardWidget(PIVXGUI* parent) :
+DashboardWidget::DashboardWidget(PLUTUSGUI* parent) :
     PWidget(parent),
     ui(new Ui::DashboardWidget)
 {
@@ -55,12 +55,12 @@ DashboardWidget::DashboardWidget(PIVXGUI* parent) :
     setCssSubtitleScreen(ui->labelSubtitle);
 
     // Staking Information
-    ui->labelMessage->setText(tr("Amount of PIV and zPIV staked."));
+    ui->labelMessage->setText(tr("Amount of PLT and zPLT staked."));
     setCssSubtitleScreen(ui->labelMessage);
-    setCssProperty(ui->labelSquarePiv, "square-chart-piv");
-    setCssProperty(ui->labelSquarezPiv, "square-chart-zpiv");
-    setCssProperty(ui->labelPiv, "text-chart-piv");
-    setCssProperty(ui->labelZpiv, "text-chart-zpiv");
+    setCssProperty(ui->labelSquarePlt, "square-chart-plt");
+    setCssProperty(ui->labelSquarezPlt, "square-chart-zplt");
+    setCssProperty(ui->labelPlt, "text-chart-plt");
+    setCssProperty(ui->labelZplt, "text-chart-zplt");
 
     // Staking Amount
     QFont fontBold;
@@ -68,10 +68,10 @@ DashboardWidget::DashboardWidget(PIVXGUI* parent) :
 
     setCssProperty(ui->labelChart, "legend-chart");
 
-    ui->labelAmountZpiv->setText("0 zPIV");
-    ui->labelAmountPiv->setText("0 PIV");
-    setCssProperty(ui->labelAmountPiv, "text-stake-piv-disable");
-    setCssProperty(ui->labelAmountZpiv, "text-stake-zpiv-disable");
+    ui->labelAmountZplt->setText("0 zPLT");
+    ui->labelAmountPlt->setText("0 PLT");
+    setCssProperty(ui->labelAmountPlt, "text-stake-plt-disable");
+    setCssProperty(ui->labelAmountZplt, "text-stake-zplt-disable");
 
     setCssProperty({ui->pushButtonAll,  ui->pushButtonMonth, ui->pushButtonYear}, "btn-check-time");
     setCssProperty({ui->comboBoxMonths,  ui->comboBoxYears}, "btn-combo-chart-selected");
@@ -140,7 +140,7 @@ DashboardWidget::DashboardWidget(PIVXGUI* parent) :
     setCssProperty(ui->chartContainer, "container-chart");
     setCssProperty(ui->pushImgEmptyChart, "img-empty-staking-on");
 
-    ui->btnHowTo->setText(tr("How to get PIV or zPIV"));
+    ui->btnHowTo->setText(tr("How to get PLT or zPLT"));
     setCssBtnSecondary(ui->btnHowTo);
 
 
@@ -235,7 +235,7 @@ void DashboardWidget::loadWalletModel(){
         loadChart();
 #endif
     }
-    // update the display unit, to not use the default ("PIV")
+    // update the display unit, to not use the default ("PLT")
     updateDisplayUnit();
 }
 
@@ -491,7 +491,7 @@ void DashboardWidget::updateStakeFilter() {
     }
 }
 
-// pair PIV, zPIV
+// pair PLT, zPLT
 const QMap<int, std::pair<qint64, qint64>> DashboardWidget::getAmountBy() {
     updateStakeFilter();
     const int size = stakesFilter->rowCount();
@@ -501,7 +501,7 @@ const QMap<int, std::pair<qint64, qint64>> DashboardWidget::getAmountBy() {
         QModelIndex modelIndex = stakesFilter->index(i, TransactionTableModel::ToAddress);
         qint64 amount = llabs(modelIndex.data(TransactionTableModel::AmountRole).toLongLong());
         QDate date = modelIndex.data(TransactionTableModel::DateRole).toDateTime().date();
-        bool isPiv = modelIndex.data(TransactionTableModel::TypeRole).toInt() != TransactionRecord::StakeZPIV;
+        bool isPlt = modelIndex.data(TransactionTableModel::TypeRole).toInt() != TransactionRecord::StakeZPLT;
 
         int time = 0;
         switch (chartShow) {
@@ -522,16 +522,16 @@ const QMap<int, std::pair<qint64, qint64>> DashboardWidget::getAmountBy() {
                 return amountBy;
         }
         if (amountBy.contains(time)) {
-            if (isPiv) {
+            if (isPlt) {
                 amountBy[time].first += amount;
             } else
                 amountBy[time].second += amount;
         } else {
-            if (isPiv) {
+            if (isPlt) {
                 amountBy[time] = std::make_pair(amount, 0);
             } else {
                 amountBy[time] = std::make_pair(0, amount);
-                hasZpivStakes = true;
+                hasZpltStakes = true;
             }
         }
     }
@@ -546,7 +546,7 @@ bool DashboardWidget::loadChartData(bool withMonthNames) {
     }
 
     chartData = new ChartData();
-    chartData->amountsByCache = getAmountBy(); // pair PIV, zPIV
+    chartData->amountsByCache = getAmountBy(); // pair PLT, zPLT
 
     std::pair<int,int> range = getChartRange(chartData->amountsByCache);
     if (range.first == 0 && range.second == 0) {
@@ -559,22 +559,22 @@ bool DashboardWidget::loadChartData(bool withMonthNames) {
 
     for (int j = range.first; j < range.second; j++) {
         int num = (isOrderedByMonth && j > daysInMonth) ? (j % daysInMonth) : j;
-        qreal piv = 0;
-        qreal zpiv = 0;
+        qreal plt = 0;
+        qreal zplt = 0;
         if (chartData->amountsByCache.contains(num)) {
             std::pair <qint64, qint64> pair = chartData->amountsByCache[num];
-            piv = (pair.first != 0) ? pair.first / 100000000 : 0;
-            zpiv = (pair.second != 0) ? pair.second / 100000000 : 0;
-            chartData->totalPiv += pair.first;
-            chartData->totalZpiv += pair.second;
+            plt = (pair.first != 0) ? pair.first / 100000000 : 0;
+            zplt = (pair.second != 0) ? pair.second / 100000000 : 0;
+            chartData->totalPlt += pair.first;
+            chartData->totalZplt += pair.second;
         }
 
         chartData->xLabels << ((withMonthNames) ? monthsNames[num - 1] : QString::number(num));
 
-        chartData->valuesPiv.append(piv);
-        chartData->valueszPiv.append(zpiv);
+        chartData->valuesPlt.append(plt);
+        chartData->valueszPlt.append(zplt);
 
-        int max = std::max(piv, zpiv);
+        int max = std::max(plt, zplt);
         if (max > chartData->maxValue) {
             chartData->maxValue = max;
         }
@@ -627,8 +627,8 @@ void DashboardWidget::onChartRefreshed() {
         axisX->clear();
     }
     // init sets
-    set0 = new QBarSet("PIV");
-    set1 = new QBarSet("zPIV");
+    set0 = new QBarSet("PLT");
+    set1 = new QBarSet("zPLT");
     set0->setColor(QColor(92,75,125));
     set1->setColor(QColor(176,136,255));
 
@@ -639,24 +639,24 @@ void DashboardWidget::onChartRefreshed() {
     series->attachAxis(axisX);
     series->attachAxis(axisY);
 
-    set0->append(chartData->valuesPiv);
-    set1->append(chartData->valueszPiv);
+    set0->append(chartData->valuesPlt);
+    set1->append(chartData->valueszPlt);
 
     // Total
     nDisplayUnit = walletModel->getOptionsModel()->getDisplayUnit();
-    if (chartData->totalPiv > 0 || chartData->totalZpiv > 0) {
-        setCssProperty(ui->labelAmountPiv, "text-stake-piv");
-        setCssProperty(ui->labelAmountZpiv, "text-stake-zpiv");
+    if (chartData->totalPlt > 0 || chartData->totalZplt > 0) {
+        setCssProperty(ui->labelAmountPlt, "text-stake-plt");
+        setCssProperty(ui->labelAmountZplt, "text-stake-zplt");
     } else {
-        setCssProperty(ui->labelAmountPiv, "text-stake-piv-disable");
-        setCssProperty(ui->labelAmountZpiv, "text-stake-zpiv-disable");
+        setCssProperty(ui->labelAmountPlt, "text-stake-plt-disable");
+        setCssProperty(ui->labelAmountZplt, "text-stake-zplt-disable");
     }
-    forceUpdateStyle({ui->labelAmountPiv, ui->labelAmountZpiv});
-    ui->labelAmountPiv->setText(GUIUtil::formatBalance(chartData->totalPiv, nDisplayUnit));
-    ui->labelAmountZpiv->setText(GUIUtil::formatBalance(chartData->totalZpiv, nDisplayUnit, true));
+    forceUpdateStyle({ui->labelAmountPlt, ui->labelAmountZplt});
+    ui->labelAmountPlt->setText(GUIUtil::formatBalance(chartData->totalPlt, nDisplayUnit));
+    ui->labelAmountZplt->setText(GUIUtil::formatBalance(chartData->totalZplt, nDisplayUnit, true));
 
     series->append(set0);
-    if(hasZpivStakes)
+    if(hasZpltStakes)
         series->append(set1);
 
     // bar width

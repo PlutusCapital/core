@@ -1,14 +1,14 @@
-// Copyright (c) 2015-2019 The PIVX developers
+// Copyright (c) 2015-2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 //
 
-#ifndef PIVX_LIGHTZPIVTHREAD_H
-#define PIVX_LIGHTZPIVTHREAD_H
+#ifndef PLUTUS_LIGHTZPLTTHREAD_H
+#define PLUTUS_LIGHTZPLTTHREAD_H
 
 #include <atomic>
 #include "genwit.h"
-#include "zpiv/accumulators.h"
+#include "zplt/accumulators.h"
 #include "concurrentqueue.h"
 #include "chainparams.h"
 #include <boost/function.hpp>
@@ -42,29 +42,29 @@ public:
 
     bool addWitWork(CGenWit wit) {
         if (!isWorkerRunning) {
-            LogPrintf("%s not running trying to add wit work \n", "pivx-light-thread");
+            LogPrintf("%s not running trying to add wit work \n", "plutus-light-thread");
             return false;
         }
         requestsQueue.push(wit);
         return true;
     }
 
-    void StartLightZpivThread(boost::thread_group& threadGroup) {
-        LogPrintf("%s thread start\n", "pivx-light-thread");
-        threadIns = boost::thread(boost::bind(&CLightWorker::ThreadLightZPIVSimplified, this));
+    void StartLightZpltThread(boost::thread_group& threadGroup) {
+        LogPrintf("%s thread start\n", "plutus-light-thread");
+        threadIns = boost::thread(boost::bind(&CLightWorker::ThreadLightZPLTSimplified, this));
     }
 
-    void StopLightZpivThread() {
+    void StopLightZpltThread() {
         threadIns.interrupt();
-        LogPrintf("%s thread interrupted\n", "pivx-light-thread");
+        LogPrintf("%s thread interrupted\n", "plutus-light-thread");
     }
 
 private:
 
-    void ThreadLightZPIVSimplified();
+    void ThreadLightZPLTSimplified();
 
     void rejectWork(CGenWit& wit, int blockHeight, uint32_t errorNumber);
 
 };
 
-#endif //PIVX_LIGHTZPIVTHREAD_H
+#endif //PLUTUS_LIGHTZPLTTHREAD_H

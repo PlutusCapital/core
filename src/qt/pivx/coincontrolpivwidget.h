@@ -1,26 +1,26 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef COINCONTROLPIVWIDGET_H
-#define COINCONTROLPIVWIDGET_H
+#ifndef COINCONTROLPLTWIDGET_H
+#define COINCONTROLPLTWIDGET_H
 
 #include <QDialog>
 
 namespace Ui {
-class CoinControlPivWidget;
+class CoinControlPltWidget;
 }
 
-class CoinControlPivWidget : public QDialog
+class CoinControlPltWidget : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CoinControlPivWidget(QWidget *parent = nullptr);
-    ~CoinControlPivWidget();
+    explicit CoinControlPltWidget(QWidget *parent = nullptr);
+    ~CoinControlPltWidget();
 
 private:
-    Ui::CoinControlPivWidget *ui;
+    Ui::CoinControlPltWidget *ui;
 };
 
-#endif // COINCONTROLPIVWIDGET_H
+#endif // COINCONTROLPLTWIDGET_H

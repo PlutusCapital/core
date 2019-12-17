@@ -1,9 +1,9 @@
-// Copyright (c) 2017-2019 The PIVX developers
+// Copyright (c) 2017-2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef PIVX_ZEROCOIN_H
-#define PIVX_ZEROCOIN_H
+#ifndef PLUTUS_ZEROCOIN_H
+#define PLUTUS_ZEROCOIN_H
 
 #include <amount.h>
 #include <limits.h>
@@ -263,4 +263,4 @@ int GetWrapppedSerialInflation(libzerocoin::CoinDenomination denom);
 
 int64_t GetWrapppedSerialInflationAmount();
 
-#endif //PIVX_ZEROCOIN_H
+#endif //PLUTUS_ZEROCOIN_H

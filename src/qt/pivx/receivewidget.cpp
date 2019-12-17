@@ -1,15 +1,15 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/receivewidget.h"
-#include "qt/pivx/forms/ui_receivewidget.h"
-#include "qt/pivx/requestdialog.h"
-#include "qt/pivx/addnewcontactdialog.h"
-#include "qt/pivx/qtutils.h"
-#include "qt/pivx/myaddressrow.h"
-#include "qt/pivx/furlistrow.h"
-#include "qt/pivx/addressholder.h"
+#include "qt/plutus/receivewidget.h"
+#include "qt/plutus/forms/ui_receivewidget.h"
+#include "qt/plutus/requestdialog.h"
+#include "qt/plutus/addnewcontactdialog.h"
+#include "qt/plutus/qtutils.h"
+#include "qt/plutus/myaddressrow.h"
+#include "qt/plutus/furlistrow.h"
+#include "qt/plutus/addressholder.h"
 #include "walletmodel.h"
 #include "guiutil.h"
 #include "pairresult.h"
@@ -21,7 +21,7 @@
 #define DECORATION_SIZE 70
 #define NUM_ITEMS 3
 
-ReceiveWidget::ReceiveWidget(PIVXGUI* parent) :
+ReceiveWidget::ReceiveWidget(PLUTUSGUI* parent) :
     PWidget(parent),
     ui(new Ui::ReceiveWidget)
 {
@@ -42,7 +42,7 @@ ReceiveWidget::ReceiveWidget(PIVXGUI* parent) :
 
     // Title
     ui->labelTitle->setText(tr("Receive"));
-    ui->labelSubtitle1->setText(tr("Scan the QR code or copy the address to receive PIV."));
+    ui->labelSubtitle1->setText(tr("Scan the QR code or copy the address to receive PLT."));
     setCssTitleScreen(ui->labelTitle);
     setCssSubtitleScreen(ui->labelSubtitle1);
 

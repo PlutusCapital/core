@@ -1,10 +1,10 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/sendcustomfeedialog.h"
-#include "qt/pivx/forms/ui_sendcustomfeedialog.h"
-#include "qt/pivx/qtutils.h"
+#include "qt/plutus/sendcustomfeedialog.h"
+#include "qt/plutus/forms/ui_sendcustomfeedialog.h"
+#include "qt/plutus/qtutils.h"
 #include "walletmodel.h"
 #include "optionsmodel.h"
 #include "guiutil.h"
@@ -37,7 +37,7 @@ SendCustomFeeDialog::SendCustomFeeDialog(QWidget *parent) :
 
     // Custom
     setCssProperty(ui->labelCustomFee, "label-subtitle-dialog");
-    ui->lineEditCustomFee->setPlaceholderText("0.000001 PIV");
+    ui->lineEditCustomFee->setPlaceholderText("0.000001 PLT");
     initCssEditLine(ui->lineEditCustomFee, true);
 
     // Buttons

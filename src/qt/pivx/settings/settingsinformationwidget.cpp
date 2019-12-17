@@ -1,18 +1,18 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/settings/settingsinformationwidget.h"
-#include "qt/pivx/settings/forms/ui_settingsinformationwidget.h"
+#include "qt/plutus/settings/settingsinformationwidget.h"
+#include "qt/plutus/settings/forms/ui_settingsinformationwidget.h"
 #include "clientmodel.h"
 #include "chainparams.h"
 #include "db.h"
 #include "util.h"
 #include "guiutil.h"
-#include "qt/pivx/qtutils.h"
+#include "qt/plutus/qtutils.h"
 #include <QDir>
 
-SettingsInformationWidget::SettingsInformationWidget(PIVXGUI* _window,QWidget *parent) :
+SettingsInformationWidget::SettingsInformationWidget(PLUTUSGUI* _window,QWidget *parent) :
     PWidget(_window,parent),
     ui(new Ui::SettingsInformationWidget)
 {

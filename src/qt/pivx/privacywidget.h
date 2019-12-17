@@ -1,13 +1,13 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef PRIVACYWIDGET_H
 #define PRIVACYWIDGET_H
 
-#include "qt/pivx/pwidget.h"
-#include "qt/pivx/furabstractlistitemdelegate.h"
-#include "qt/pivx/txviewholder.h"
+#include "qt/plutus/pwidget.h"
+#include "qt/plutus/furabstractlistitemdelegate.h"
+#include "qt/plutus/txviewholder.h"
 #include "transactiontablemodel.h"
 #include "transactionfilterproxy.h"
 #include "coincontroldialog.h"
@@ -15,7 +15,7 @@
 #include <QLabel>
 #include <QWidget>
 
-class PIVXGUI;
+class PLUTUSGUI;
 class WalletModel;
 
 namespace Ui {
@@ -31,7 +31,7 @@ class PrivacyWidget : public PWidget
     Q_OBJECT
 
 public:
-    explicit PrivacyWidget(PIVXGUI* parent);
+    explicit PrivacyWidget(PLUTUSGUI* parent);
     ~PrivacyWidget();
 
     void loadWalletModel() override;
@@ -41,7 +41,7 @@ private slots:
     void onDenomClicked();
     void onRescanMintsClicked();
     void onResetZeroClicked();
-    void onTotalZpivClicked();
+    void onTotalZpltClicked();
     void updateDisplayUnit();
     void showList();
     void onSendClicked();

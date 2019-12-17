@@ -192,9 +192,9 @@
     </message>
     </context>
 <context>
-    <name>ZPivControlDialog</name>
+    <name>ZPltControlDialog</name>
     </context>
 <context>
-    <name>pivx-core</name>
+    <name>plutus-core</name>
     </context>
 </TS>

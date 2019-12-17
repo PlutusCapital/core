@@ -1,11 +1,11 @@
-// Copyright (c) 2018 The PIVX developers
+// Copyright (c) 2018 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef PIVX_INVALID_H
-#define PIVX_INVALID_H
+#ifndef PLUTUS_INVALID_H
+#define PLUTUS_INVALID_H
 
-#endif //PIVX_INVALID_H
+#endif //PLUTUS_INVALID_H
 
 #include <libzerocoin/bignum.h>
 #include <univalue/include/univalue.h>

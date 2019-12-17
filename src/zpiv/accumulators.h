@@ -1,14 +1,14 @@
-// Copyright (c) 2017-2019 The PIVX developers
+// Copyright (c) 2017-2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef PIVX_ACCUMULATORS_H
-#define PIVX_ACCUMULATORS_H
+#ifndef PLUTUS_ACCUMULATORS_H
+#define PLUTUS_ACCUMULATORS_H
 
 #include "libzerocoin/Accumulator.h"
 #include "libzerocoin/Coin.h"
 #include "libzerocoin/Denominations.h"
-#include "zpiv/zerocoin.h"
+#include "zplt/zerocoin.h"
 #include "accumulatormap.h"
 #include "chain.h"
 #include "uint256.h"
@@ -90,5 +90,5 @@ public:
     searchMintHeightException(const std::string &message) : message(message) {}
 };
 
-#endif //PIVX_ACCUMULATORS_H
+#endif //PLUTUS_ACCUMULATORS_H
 

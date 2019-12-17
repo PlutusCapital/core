@@ -1,16 +1,16 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/sendmultirow.h"
-#include "qt/pivx/forms/ui_sendmultirow.h"
+#include "qt/plutus/sendmultirow.h"
+#include "qt/plutus/forms/ui_sendmultirow.h"
 #include <QDoubleValidator>
 
 #include "optionsmodel.h"
 #include "addresstablemodel.h"
 #include "guiutil.h"
 #include "bitcoinunits.h"
-#include "qt/pivx/qtutils.h"
+#include "qt/plutus/qtutils.h"
 
 SendMultiRow::SendMultiRow(PWidget *parent) :
     PWidget(parent),
@@ -25,7 +25,7 @@ SendMultiRow::SendMultiRow(PWidget *parent) :
     ui->lineEditAddress->setAttribute(Qt::WA_MacShowFocusRect, 0);
     setShadow(ui->stackedAddress);
 
-    ui->lineEditAmount->setPlaceholderText("0.00 PIV ");
+    ui->lineEditAmount->setPlaceholderText("0.00 PLT ");
     initCssEditLine(ui->lineEditAmount);
     QDoubleValidator *doubleValidator = new QDoubleValidator(0, 9999999, 8, this);
     doubleValidator->setNotation(QDoubleValidator::StandardNotation);

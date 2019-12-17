@@ -1,23 +1,23 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/coldstakingwidget.h"
-#include "qt/pivx/forms/ui_coldstakingwidget.h"
-#include "qt/pivx/qtutils.h"
+#include "qt/plutus/coldstakingwidget.h"
+#include "qt/plutus/forms/ui_coldstakingwidget.h"
+#include "qt/plutus/qtutils.h"
 #include "amount.h"
 #include "guiutil.h"
-#include "qt/pivx/requestdialog.h"
-#include "qt/pivx/tooltipmenu.h"
-#include "qt/pivx/furlistrow.h"
-#include "qt/pivx/sendconfirmdialog.h"
-#include "qt/pivx/addnewcontactdialog.h"
-#include "qt/pivx/guitransactionsutils.h"
+#include "qt/plutus/requestdialog.h"
+#include "qt/plutus/tooltipmenu.h"
+#include "qt/plutus/furlistrow.h"
+#include "qt/plutus/sendconfirmdialog.h"
+#include "qt/plutus/addnewcontactdialog.h"
+#include "qt/plutus/guitransactionsutils.h"
 #include "walletmodel.h"
 #include "optionsmodel.h"
 #include "coincontroldialog.h"
 #include "coincontrol.h"
-#include "qt/pivx/csrow.h"
+#include "qt/plutus/csrow.h"
 
 #define DECORATION_SIZE 70
 #define NUM_ITEMS 3
@@ -67,7 +67,7 @@ private:
     CSRow *cachedRow = nullptr;
 };
 
-ColdStakingWidget::ColdStakingWidget(PIVXGUI* parent) :
+ColdStakingWidget::ColdStakingWidget(PLUTUSGUI* parent) :
     PWidget(parent),
     ui(new Ui::ColdStakingWidget)
 {
@@ -96,7 +96,7 @@ ColdStakingWidget::ColdStakingWidget(PIVXGUI* parent) :
     setCssProperty(ui->pushRight, "btn-check-right");
 
     /* Subtitle */
-    ui->labelSubtitle1->setText(tr("You can delegate your PIVs and let a hot node (24/7 online node)\nstake in your behalf, keeping the keys in a secure place offline."));
+    ui->labelSubtitle1->setText(tr("You can delegate your PLTs and let a hot node (24/7 online node)\nstake in your behalf, keeping the keys in a secure place offline."));
     setCssSubtitleScreen(ui->labelSubtitle1);
     spacerDiv = new QSpacerItem(40, 20, QSizePolicy::Maximum, QSizePolicy::Expanding);
 
@@ -107,7 +107,7 @@ ColdStakingWidget::ColdStakingWidget(PIVXGUI* parent) :
     ui->lineEditOwnerAddress->setAttribute(Qt::WA_MacShowFocusRect, 0);
     setShadow(ui->lineEditOwnerAddress);
 
-    ui->labelSubtitle2->setText(tr("Delegate or Accept PIV delegation"));
+    ui->labelSubtitle2->setText(tr("Delegate or Accept PLT delegation"));
     setCssSubtitleScreen(ui->labelSubtitle2);
     ui->labelSubtitle2->setContentsMargins(0,2,0,0);
 
@@ -134,7 +134,7 @@ ColdStakingWidget::ColdStakingWidget(PIVXGUI* parent) :
     setCssProperty(ui->labelEmpty, "text-empty");
 
     ui->btnCoinControl->setTitleClassAndText("btn-title-grey", "Coin Control");
-    ui->btnCoinControl->setSubTitleClassAndText("text-subtitle", "Select PIV outputs to delegate.");
+    ui->btnCoinControl->setSubTitleClassAndText("text-subtitle", "Select PLT outputs to delegate.");
 
     ui->btnColdStaking->setTitleClassAndText("btn-title-grey", "Create Cold Stake Address");
     ui->btnColdStaking->setSubTitleClassAndText("text-subtitle", "Creates an address to receive coin\ndelegations and be able to stake them.");
@@ -204,7 +204,7 @@ void ColdStakingWidget::loadWalletModel(){
         if (csModel->rowCount() > 0) {
             CAmount coldStaking = walletModel->getColdStakedBalance();
             ui->labelStakingTotal->setText(tr("Total Staking: %1").arg(
-                    (coldStaking == 0) ? "0.00 PIV" : GUIUtil::formatBalance(coldStaking, nDisplayUnit))
+                    (coldStaking == 0) ? "0.00 PLT" : GUIUtil::formatBalance(coldStaking, nDisplayUnit))
             );
             ui->labelStakingTotal->setVisible(true);
         } else {
@@ -403,9 +403,9 @@ void ColdStakingWidget::onSendClicked(){
     SendCoinsRecipient dest = sendMultiRow->getValue();
     dest.isP2CS = true;
 
-    // Amount must be < 10 PIV, check chainparams minColdStakingAmount
+    // Amount must be < 10 PLT, check chainparams minColdStakingAmount
     if (dest.amount < (COIN * 10)) {
-        inform(tr("Invalid entry, minimum delegable amount is 10 PIV"));
+        inform(tr("Invalid entry, minimum delegable amount is 10 PLT"));
         return;
     }
 
@@ -500,7 +500,7 @@ void ColdStakingWidget::onCoinControlClicked(){
             coinControlDialog->exec();
             ui->btnCoinControl->setActive(CoinControlDialog::coinControl->HasSelected());
         } else {
-            inform(tr("You don't have any PIV to select."));
+            inform(tr("You don't have any PLT to select."));
         }
     }
 }

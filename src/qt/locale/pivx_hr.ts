@@ -62,12 +62,12 @@
         <translation>Adrese za primanje</translation>
     </message>
     <message>
-        <source>These are your PIVX addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>To su vaše PIVX adrese za slanje plaćanja. Uvijek provjerite iznos i adresu primatelja prije slanja novca.</translation>
+        <source>These are your PLUTUS addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>To su vaše PLUTUS adrese za slanje plaćanja. Uvijek provjerite iznos i adresu primatelja prije slanja novca.</translation>
     </message>
     <message>
-        <source>These are your PIVX addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>To su vaše PIVX adrese za primanje uplata. Preporuča se upotreba nove adrese primanja za svaku transakciju.</translation>
+        <source>These are your PLUTUS addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>To su vaše PLUTUS adrese za primanje uplata. Preporuča se upotreba nove adrese primanja za svaku transakciju.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -172,16 +172,16 @@
         <translation>Potvrdite šifriranje novčanika</translation>
     </message>
     <message>
-        <source>PIVX will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your PIVs from being stolen by malware infecting your computer.</source>
-        <translation>PIVX se sada zatvara kako bi dovršio proces šifriranja. Ne zaboravite da šifriranje vašeg novčanika ne može u potpunosti zaštititi vaše PIV od krađe zlonamjernog softvera koji zarazi vaše računalo.</translation>
+        <source>PLUTUS will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your PLTs from being stolen by malware infecting your computer.</source>
+        <translation>PLUTUS se sada zatvara kako bi dovršio proces šifriranja. Ne zaboravite da šifriranje vašeg novčanika ne može u potpunosti zaštititi vaše PLT od krađe zlonamjernog softvera koji zarazi vaše računalo.</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>Jeste li sigurni da želite šifrirati svoj novčanik?</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR PIV&lt;/b&gt;!</source>
-        <translation>Upozorenje: Ako šifrirate svoj novčanik i izgubite vašu zaporku, vi ćete1 IZGUBITI ĆE TE SAV VAŠ PIV1!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR PLT&lt;/b&gt;!</source>
+        <translation>Upozorenje: Ako šifrirate svoj novčanik i izgubite vašu zaporku, vi ćete1 IZGUBITI ĆE TE SAV VAŠ PLT1!</translation>
     </message>
     <message>
         <source>Wallet encrypted</source>
@@ -409,8 +409,8 @@
         <translation>Pregledajte povijest transakcija</translation>
     </message>
     <message>
-        <source>Privacy Actions for zPIV</source>
-        <translation>Aktivnosti na privatnost za zPIV</translation>
+        <source>Privacy Actions for zPLT</source>
+        <translation>Aktivnosti na privatnost za zPLT</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -617,16 +617,16 @@
         <translation>Alatna traka kartica</translation>
     </message>
     <message>
-        <source>PIVX Core</source>
-        <translation>PIVX Core</translation>
+        <source>PLUTUS Core</source>
+        <translation>PLUTUS Core</translation>
     </message>
     <message>
-        <source>Send coins to a PIVX address</source>
-        <translation>Pošaljite kovanice na PIVX adresu</translation>
+        <source>Send coins to a PLUTUS address</source>
+        <translation>Pošaljite kovanice na PLUTUS adresu</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and pivx: URIs)</source>
-        <translation>Zahtjev za plaćanja (generira QR kodove i pivx: URI)</translation>
+        <source>Request payments (generates QR codes and plutus: URIs)</source>
+        <translation>Zahtjev za plaćanja (generira QR kodove i plutus: URI)</translation>
     </message>
     <message>
         <source>&amp;Privacy</source>
@@ -641,24 +641,24 @@
         <translation>Pregledajte masternode</translation>
     </message>
     <message>
-        <source>&amp;About PIVX Core</source>
-        <translation>&amp; O PIVX Coreu</translation>
+        <source>&amp;About PLUTUS Core</source>
+        <translation>&amp; O PLUTUS Coreu</translation>
     </message>
     <message>
-        <source>Show information about PIVX Core</source>
-        <translation>Prikaz informacija o PIVX Coreu</translation>
+        <source>Show information about PLUTUS Core</source>
+        <translation>Prikaz informacija o PLUTUS Coreu</translation>
     </message>
     <message>
-        <source>Modify configuration options for PIVX</source>
-        <translation>Izmijenite opcije konfiguracije za PIVX</translation>
+        <source>Modify configuration options for PLUTUS</source>
+        <translation>Izmijenite opcije konfiguracije za PLUTUS</translation>
     </message>
     <message>
-        <source>Sign messages with your PIVX addresses to prove you own them</source>
-        <translation>Potpišite poruke s vašim PIVX adresama kako biste dokazali da ih posjedujete</translation>
+        <source>Sign messages with your PLUTUS addresses to prove you own them</source>
+        <translation>Potpišite poruke s vašim PLUTUS adresama kako biste dokazali da ih posjedujete</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified PIVX addresses</source>
-        <translation>Potvrdite poruke kako biste bili sigurni da su potpisani s određenim PIVX adresama</translation>
+        <source>Verify messages to ensure they were signed with specified PLUTUS addresses</source>
+        <translation>Potvrdite poruke kako biste bili sigurni da su potpisani s određenim PLUTUS adresama</translation>
     </message>
     <message>
         <source>&amp;BIP38 tool</source>
@@ -685,8 +685,8 @@
         <translation>Otvori konfiguracijsku datoteku za Masternode</translation>
     </message>
     <message>
-        <source>PIVX Core client</source>
-        <translation>PIVX Core klijent</translation>
+        <source>PLUTUS Core client</source>
+        <translation>PLUTUS Core klijent</translation>
     </message>
     <message>
         <source>Importing blocks from disk...</source>
@@ -922,15 +922,15 @@
 <context>
     <name>HelpMessageDialog</name>
     <message>
-        <source>PIVX Core</source>
-        <translation>PIVX Core</translation>
+        <source>PLUTUS Core</source>
+        <translation>PLUTUS Core</translation>
     </message>
     </context>
 <context>
     <name>Intro</name>
     <message>
-        <source>PIVX Core</source>
-        <translation>PIVX Core</translation>
+        <source>PLUTUS Core</source>
+        <translation>PLUTUS Core</translation>
     </message>
     <message>
         <source>Error</source>
@@ -1058,8 +1058,8 @@
         <translation>N/A</translation>
     </message>
     <message>
-        <source>PIVX Core</source>
-        <translation>PIVX Core</translation>
+        <source>PLUTUS Core</source>
+        <translation>PLUTUS Core</translation>
     </message>
     </context>
 <context>
@@ -1244,8 +1244,8 @@
         <translation>Ostatak:</translation>
     </message>
     <message>
-        <source>0 PIV</source>
-        <translation>0 PIV</translation>
+        <source>0 PLT</source>
+        <translation>0 PLT</translation>
     </message>
     <message>
         <source>Confirmation time:</source>
@@ -1322,15 +1322,15 @@
 <context>
     <name>ShutdownWindow</name>
     <message>
-        <source>PIVX Core is shutting down...</source>
-        <translation>PIVX Core se gasi...</translation>
+        <source>PLUTUS Core is shutting down...</source>
+        <translation>PLUTUS Core se gasi...</translation>
     </message>
     </context>
 <context>
     <name>SignVerifyMessageDialog</name>
     <message>
-        <source>The PIVX address to sign the message with</source>
-        <translation>PIVX adresa za potpisivanje poruke s</translation>
+        <source>The PLUTUS address to sign the message with</source>
+        <translation>PLUTUS adresa za potpisivanje poruke s</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -1353,16 +1353,16 @@
         <translation>Kopirajte trenutačni potpis u međuspremnik sustava</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this PIVX address</source>
-        <translation>Potpišite poruku da biste dokazali da ste vlasnik ove PIVX adrese</translation>
+        <source>Sign the message to prove you own this PLUTUS address</source>
+        <translation>Potpišite poruku da biste dokazali da ste vlasnik ove PLUTUS adrese</translation>
     </message>
     <message>
-        <source>The PIVX address the message was signed with</source>
-        <translation>PIVX adresa s kojom je potpisana poruka</translation>
+        <source>The PLUTUS address the message was signed with</source>
+        <translation>PLUTUS adresa s kojom je potpisana poruka</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified PIVX address</source>
-        <translation>Potvrdite poruku kako biste bili sigurni da je potpisan s navedenom PIVX adresom</translation>
+        <source>Verify the message to ensure it was signed with the specified PLUTUS address</source>
+        <translation>Potvrdite poruku kako biste bili sigurni da je potpisan s navedenom PLUTUS adresom</translation>
     </message>
     <message>
         <source>Reset all sign message fields</source>
@@ -1408,8 +1408,8 @@
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>PIVX Core</source>
-        <translation>PIVX Core</translation>
+        <source>PLUTUS Core</source>
+        <translation>PLUTUS Core</translation>
     </message>
     <message>
         <source>Version %1</source>
@@ -1560,14 +1560,14 @@
     </message>
     </context>
 <context>
-    <name>ZPivControlDialog</name>
+    <name>ZPltControlDialog</name>
     <message>
         <source>0</source>
         <translation>0</translation>
     </message>
     </context>
 <context>
-    <name>pivx-core</name>
+    <name>plutus-core</name>
     <message>
         <source>Error</source>
         <translation>Greška</translation>

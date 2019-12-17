@@ -1,17 +1,17 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/addresseswidget.h"
-#include "qt/pivx/forms/ui_addresseswidget.h"
-#include "qt/pivx/addresslabelrow.h"
-#include "qt/pivx/addnewaddressdialog.h"
-#include "qt/pivx/tooltipmenu.h"
+#include "qt/plutus/addresseswidget.h"
+#include "qt/plutus/forms/ui_addresseswidget.h"
+#include "qt/plutus/addresslabelrow.h"
+#include "qt/plutus/addnewaddressdialog.h"
+#include "qt/plutus/tooltipmenu.h"
 
-#include "qt/pivx/addnewcontactdialog.h"
-#include "qt/pivx/pivxgui.h"
+#include "qt/plutus/addnewcontactdialog.h"
+#include "qt/plutus/plutusgui.h"
 #include "guiutil.h"
-#include "qt/pivx/qtutils.h"
+#include "qt/plutus/qtutils.h"
 #include "walletmodel.h"
 
 #include <QModelIndex>
@@ -56,7 +56,7 @@ public:
 };
 
 
-AddressesWidget::AddressesWidget(PIVXGUI* parent) :
+AddressesWidget::AddressesWidget(PLUTUSGUI* parent) :
     PWidget(parent),
     ui(new Ui::AddressesWidget)
 {
@@ -112,7 +112,7 @@ AddressesWidget::AddressesWidget(PIVXGUI* parent) :
     setCssEditLine(ui->lineEditName, true);
 
     // Address
-    ui->labelAddress->setText(tr("Enter a PIVX address"));
+    ui->labelAddress->setText(tr("Enter a PLUTUS address"));
     setCssProperty(ui->labelAddress, "text-title");
     ui->lineEditAddress->setPlaceholderText("e.g. D7VFR83SQbiezrW72hjc…");
     setCssEditLine(ui->lineEditAddress, true);
@@ -179,8 +179,8 @@ void AddressesWidget::onStoreContactClicked(){
             return;
         }
 
-        CBitcoinAddress pivAdd = CBitcoinAddress(address.toUtf8().constData());
-        if (walletModel->isMine(pivAdd)) {
+        CBitcoinAddress pltAdd = CBitcoinAddress(address.toUtf8().constData());
+        if (walletModel->isMine(pltAdd)) {
             setCssEditLine(ui->lineEditAddress, false, true);
             inform(tr("Cannot store your own address as contact"));
             return;
@@ -193,7 +193,7 @@ void AddressesWidget::onStoreContactClicked(){
             return;
         }
 
-        if (walletModel->updateAddressBookLabels(pivAdd.Get(), label.toUtf8().constData(), "send")) {
+        if (walletModel->updateAddressBookLabels(pltAdd.Get(), label.toUtf8().constData(), "send")) {
             ui->lineEditAddress->setText("");
             ui->lineEditName->setText("");
             setCssEditLine(ui->lineEditAddress, true, true);

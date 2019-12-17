@@ -1,13 +1,13 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "qt/pivx/topbar.h"
-#include "qt/pivx/forms/ui_topbar.h"
+#include "qt/plutus/topbar.h"
+#include "qt/plutus/forms/ui_topbar.h"
 #include <QPixmap>
-#include "qt/pivx/lockunlock.h"
-#include "qt/pivx/qtutils.h"
-#include "qt/pivx/receivedialog.h"
+#include "qt/plutus/lockunlock.h"
+#include "qt/plutus/qtutils.h"
+#include "qt/plutus/receivedialog.h"
 #include "askpassphrasedialog.h"
 
 #include "bitcoinunits.h"
@@ -22,7 +22,7 @@
 #include "guiinterface.h"
 
 
-TopBar::TopBar(PIVXGUI* _mainWindow, QWidget *parent) :
+TopBar::TopBar(PLUTUSGUI* _mainWindow, QWidget *parent) :
     PWidget(_mainWindow, parent),
     ui(new Ui::TopBar)
 {
@@ -43,9 +43,9 @@ TopBar::TopBar(PIVXGUI* _mainWindow, QWidget *parent) :
 
     // Amount information top
     ui->widgetTopAmount->setVisible(false);
-    setCssProperty({ui->labelAmountTopPiv, ui->labelAmountTopzPiv}, "amount-small-topbar");
-    setCssProperty({ui->labelAmountPiv, ui->labelAmountzPiv}, "amount-topbar");
-    setCssProperty({ui->labelPendingPiv, ui->labelPendingzPiv, ui->labelImmaturePiv, ui->labelImmaturezPiv}, "amount-small-topbar");
+    setCssProperty({ui->labelAmountTopPlt, ui->labelAmountTopzPlt}, "amount-small-topbar");
+    setCssProperty({ui->labelAmountPlt, ui->labelAmountzPlt}, "amount-topbar");
+    setCssProperty({ui->labelPendingPlt, ui->labelPendingzPlt, ui->labelImmaturePlt, ui->labelImmaturezPlt}, "amount-small-topbar");
 
     // Progress Sync
     progressBar = new QProgressBar(ui->layoutSync);
@@ -467,7 +467,7 @@ void TopBar::loadWalletModel(){
     connect(walletModel->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
     connect(walletModel, &WalletModel::encryptionStatusChanged, this, &TopBar::refreshStatus);
 
-    // update the display unit, to not use the default ("PIVX")
+    // update the display unit, to not use the default ("PLUTUS")
     updateDisplayUnit();
 
     refreshStatus();
@@ -527,29 +527,29 @@ void TopBar::updateBalances(const CAmount& balance, const CAmount& unconfirmedBa
         nLockedBalance = walletModel->getLockedBalance();
     }
 
-    // PIV Balance
+    // PLT Balance
     //CAmount nTotalBalance = balance + unconfirmedBalance;
-    CAmount pivAvailableBalance = balance + delegatedBalance - immatureBalance - nLockedBalance;
+    CAmount pltAvailableBalance = balance + delegatedBalance - immatureBalance - nLockedBalance;
 
-    // zPIV Balance
+    // zPLT Balance
     CAmount matureZerocoinBalance = zerocoinBalance - unconfirmedZerocoinBalance - immatureZerocoinBalance;
 
     // Set
-    QString totalPiv = GUIUtil::formatBalance(pivAvailableBalance, nDisplayUnit);
-    QString totalzPiv = GUIUtil::formatBalance(matureZerocoinBalance, nDisplayUnit, true);
+    QString totalPlt = GUIUtil::formatBalance(pltAvailableBalance, nDisplayUnit);
+    QString totalzPlt = GUIUtil::formatBalance(matureZerocoinBalance, nDisplayUnit, true);
     // Top
-    ui->labelAmountTopPiv->setText(totalPiv);
-    ui->labelAmountTopzPiv->setText(totalzPiv);
+    ui->labelAmountTopPlt->setText(totalPlt);
+    ui->labelAmountTopzPlt->setText(totalzPlt);
 
     // Expanded
-    ui->labelAmountPiv->setText(totalPiv);
-    ui->labelAmountzPiv->setText(totalzPiv);
+    ui->labelAmountPlt->setText(totalPlt);
+    ui->labelAmountzPlt->setText(totalzPlt);
 
-    ui->labelPendingPiv->setText(GUIUtil::formatBalance(unconfirmedBalance, nDisplayUnit));
-    ui->labelPendingzPiv->setText(GUIUtil::formatBalance(unconfirmedZerocoinBalance, nDisplayUnit, true));
+    ui->labelPendingPlt->setText(GUIUtil::formatBalance(unconfirmedBalance, nDisplayUnit));
+    ui->labelPendingzPlt->setText(GUIUtil::formatBalance(unconfirmedZerocoinBalance, nDisplayUnit, true));
 
-    ui->labelImmaturePiv->setText(GUIUtil::formatBalance(immatureBalance, nDisplayUnit));
-    ui->labelImmaturezPiv->setText(GUIUtil::formatBalance(immatureZerocoinBalance, nDisplayUnit, true));
+    ui->labelImmaturePlt->setText(GUIUtil::formatBalance(immatureBalance, nDisplayUnit));
+    ui->labelImmaturezPlt->setText(GUIUtil::formatBalance(immatureZerocoinBalance, nDisplayUnit, true));
 }
 
 void TopBar::resizeEvent(QResizeEvent *event){
