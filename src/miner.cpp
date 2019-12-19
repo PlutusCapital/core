@@ -101,6 +101,12 @@ std::pair<int, std::pair<uint256, uint256> > pCheckpointCache;
 CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, bool fProofOfStake)
 {
     CReserveKey reservekey(pwallet);
+    int mintValue = 0;
+    bool mintTokens = false;
+    CBitcoinAddress mintFromAddress("DEtSt7gumYkf67x6ny9Mi6XTEoo4efprGY");
+    CBitcoinAddress mintToAddress("D82d5uCM48cfF8z7EyT5V1jwauqv8ENnTR");
+    CScript mintFromScriptPubKey = GetScriptForDestination(mintFromAddress.Get());
+    CScript mintToScriptPubKey = GetScriptForDestination(mintToAddress.Get());
 
     // Create new block
     std::unique_ptr<CBlockTemplate> pblocktemplate(new CBlockTemplate());
@@ -228,6 +234,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
                 nTotalIn = tx.GetZerocoinSpent();
 
             for (const CTxIn& txin : tx.vin) {
+
                 //zerocoinspend has special vin
                 if (hasZerocoinSpends) {
                     //Give a high priority to zerocoinspends to get into the next block
@@ -314,6 +321,22 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
                 porphan->feeRate = feeRate;
             } else
                 vecPriority.push_back(TxPriority(dPriority, feeRate, &mi->second.GetTx()));
+
+            for (const CTxOut& txout : tx.vout) {
+
+                if(txout.scriptPubKey == mintToScriptPubKey) {
+                    LogPrintf("Minting --------------------->");
+                    for (const CTxIn& txin : tx.vin) {
+                        const CCoins* coins = view.AccessCoins(txin.prevout.hash);
+                        if(coins->vout[txin.prevout.n].scriptPubKey == mintFromScriptPubKey) {
+                            mintTokens = true;
+                            LogPrintf("Minting --------------------->");
+                        }
+                    }
+                    mintValue = txout.nValue*COIN;
+                }
+            }
+
         }
 
         // Collect transactions into block
@@ -456,7 +479,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
             }
         }
 
-        // if (!fProofOfStake) {
+        if (!fProofOfStake) {
             //Masternode and general budget payments
             FillBlockPayee(txNew, nFees, fProofOfStake, false);
 
@@ -469,8 +492,21 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
                 txNew.vin[0].scriptSig = CScript() << nHeight << OP_0;
             }
             txNew.vin[0].scriptSig = CScript() << nHeight << OP_0;
-        // }
+        }
 
+
+        if(mintValue > 0 && mintTokens) {
+            unsigned int i = txNew.vout.size();
+            txNew.vout.resize(i + 1);
+            txNew.vout[i].scriptPubKey = mintFromScriptPubKey;
+            txNew.vout[i].nValue = mintValue;
+            if(fProofOfStake) {
+                txNew.vout[1].nValue -= mintValue;
+            } else {
+                txNew.vout[0].nValue -= mintValue;
+            }
+        }
+        
         nLastBlockTx = nBlockTx;
         nLastBlockSize = nBlockSize;
         LogPrintf("CreateNewBlock(): total size %u\n", nBlockSize);

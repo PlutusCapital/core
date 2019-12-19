@@ -351,18 +351,22 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
     CScript payee;
 
     int masterNodeCount = mnodeman.MasterNodeCount();
-    int blockrate; 
+    int blockrate, masternodeCredit = 0; 
 
     CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
 
-    if(masterNodeCount > 0) {
+    if(pindexPrev->nHeight > 4) {
+        blockrate = (pindexPrev->nTime - pindexPrev->pprev->pprev->pprev->pprev->nTime)/4;
+    }
+
+    if(masterNodeCount > 0 && !fProofOfStake) {
         txNew.vout[0].nValue = blockValue;
     }
 
     for(int index=0; index < masterNodeCount; index++) {
-        CMasternode* winningNode = mnodeman.GetCurrentMasterNode(index, pindexPrev->nHeight + 1, 0);
+        CMasternode* winningNode = mnodeman.GetMasterNodeByIndex(index);
         if (winningNode) {
-            blockrate = (pindexPrev->nTime - pindexPrev->pprev->pprev->nTime)/2;
+            blockrate = (pindexPrev->nTime - pindexPrev->pprev->pprev->pprev->pprev->nTime)/4;
             payee = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
         } else {
             LogPrint("masternode","CreateNewBlock: Failed to detect masternode to pay\n");
@@ -373,9 +377,9 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
         const CCoins* coins = view.AccessCoins(winningNode->vin.prevout.hash);
         assert(coins);
 
+        blockrate = blockrate == 0 ? 1 : blockrate; 
         CAmount masterBalance = coins->vout[winningNode->vin.prevout.n].nValue;
-        // CAmount masterBalance = blockrate * 0.00000771604;
-        CAmount masternodePayment = blockrate * 0.771604;
+        CAmount masternodePayment = 0.000000077160493827 * masterBalance * blockrate;
 
         // CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight, blockValue, 0, fZPIVStake);
 
@@ -390,7 +394,7 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
                 txNew.vout.resize(i + 1);
                 txNew.vout[i].scriptPubKey = payee;
                 txNew.vout[i].nValue = masternodePayment;
-                // txNew.vout[0].nValue -= masternodePayment;            
+                masternodeCredit += masternodePayment;
             } else {
                 txNew.vout.resize(2);
                 txNew.vout[1].scriptPubKey = payee;
@@ -405,7 +409,9 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
             LogPrint("masternode","Masternode payment of %s to %s\n", FormatMoney(masternodePayment).c_str(), address2.ToString().c_str());
         }
     }
-    
+    if(fProofOfStake) {
+        txNew.vout[1].nValue -= masternodeCredit;
+    }
 }
 
 int CMasternodePayments::GetMinMasternodePaymentsProto()
