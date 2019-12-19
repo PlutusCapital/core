@@ -129,6 +129,7 @@ public:
 
     /// Get the current winner for this block
     CMasternode* GetCurrentMasterNode(int mod = 1, int64_t nBlockHeight = 0, int minProtocol = 0);
+    CMasternode* GetMasterNodeByIndex(int mod = 1);
 
     std::vector<CMasternode> GetFullMasternodeVector()
     {
