@@ -1,0 +1,3 @@
+usr/local/bin/plutusd usr/bin
+usr/local/bin/plutus-cli usr/bin
+debian/examples/plutus.conf etc/plutus

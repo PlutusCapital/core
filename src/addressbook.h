@@ -1,9 +1,9 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef PIVX_ADDRESSBOOK_H
-#define PIVX_ADDRESSBOOK_H
+#ifndef PLUTUS_ADDRESSBOOK_H
+#define PLUTUS_ADDRESSBOOK_H
 
 #include <map>
 #include <string>
@@ -36,4 +36,4 @@ namespace AddressBook {
 
 }
 
-#endif //PIVX_ADDRESSBOOK_H
+#endif //PLUTUS_ADDRESSBOOK_H

@@ -1,13 +1,13 @@
-// Copyright (c) 2017-2019 The PIVX developers
+// Copyright (c) 2017-2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "libzerocoin/Denominations.h"
 #include "libzerocoin/CoinSpend.h"
 #include "libzerocoin/Accumulator.h"
-#include "zpiv/zerocoin.h"
-#include "zpiv/deterministicmint.h"
-#include "zpiv/zpivwallet.h"
+#include "zplt/zerocoin.h"
+#include "zplt/deterministicmint.h"
+#include "zplt/zpltwallet.h"
 #include "libzerocoin/Coin.h"
 #include "amount.h"
 #include "chainparams.h"
@@ -16,7 +16,7 @@
 #include "wallet/wallet.h"
 #include "wallet/walletdb.h"
 #include "txdb.h"
-#include "test/test_pivx.h"
+#include "test/test_plutus.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(zerocoin_wrapped_serial_spend_test)
     std::string strWalletFile = "unittestwallet.dat";
     CWalletDB walletdb(strWalletFile, "cr+");
     CWallet wallet(strWalletFile);
-    CzPIVWallet *czPIVWallet = new CzPIVWallet(wallet.strWalletFile);
+    CzPLTWallet *czPLTWallet = new CzPLTWallet(wallet.strWalletFile);
 
     // Get the 5 created mints.
     libzerocoin::CoinDenomination denom = libzerocoin::CoinDenomination::ZQ_FIFTY;
@@ -48,8 +48,8 @@ BOOST_AUTO_TEST_CASE(zerocoin_wrapped_serial_spend_test)
     for (unsigned int i = 0; i < TESTS_COINS_TO_ACCUMULATE; i++) {
         libzerocoin::PrivateCoin coin(ZCParams, denom, false);
         CDeterministicMint dMint;
-        czPIVWallet->GenerateDeterministicZPIV(denom, coin, dMint, true);
-        czPIVWallet->UpdateCount();
+        czPLTWallet->GenerateDeterministicZPLT(denom, coin, dMint, true);
+        czPLTWallet->UpdateCount();
         vCoins.emplace_back(coin);
     }
 
