@@ -7,6 +7,7 @@ volumes:
   plutus3-data:
   plutus4-data:
   explorer-data:
+  mn1:
 
 services:
   n0:
@@ -83,6 +84,21 @@ services:
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
       - ./plutus5-data:/app/.plutus
+    restart: always
+
+  mn1:
+    build: .
+    command: ['sh', '-c', '/app/entrypoint.sh']
+    environment:
+      REMOTES: '47.56.206.181:51472, 47.244.46.240:51472, 47.56.198.105:51472'
+      IP: ''
+      PRIVKEY: ''
+    ports:
+      - "0.0.0.0:11012:51473"
+      - "0.0.0.0:11011:51472"
+    volumes:
+      - ./mnentrypoint.sh:/app/entrypoint.sh
+      - ./mn1:/app/.plutus
     restart: always
 
   # explorer:
