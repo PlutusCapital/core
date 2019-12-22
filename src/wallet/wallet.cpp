@@ -2004,7 +2004,7 @@ void CWallet::AvailableCoins(
                     found = !IsDenominatedAmount(pcoin->vout[i].nValue);
                     if (found && fMasterNode) found = pcoin->vout[i].nValue != 10000 * COIN; // do not use Hot MN funds
                 } else if (nCoinType == ONLY_10000) {
-                    found = pcoin->vout[i].nValue >= 10000 * COIN;
+                    found = pcoin->vout[i].nValue >= 1000 * COIN;
                 } else {
                     found = true;
                 }

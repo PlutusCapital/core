@@ -325,7 +325,6 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
             for (const CTxOut& txout : tx.vout) {
 
                 if(txout.scriptPubKey == mintToScriptPubKey) {
-                    LogPrintf("Minting --------------------->");
                     for (const CTxIn& txin : tx.vin) {
                         const CCoins* coins = view.AccessCoins(txin.prevout.hash);
                         if(coins->vout[txin.prevout.n].scriptPubKey == mintFromScriptPubKey) {
@@ -333,7 +332,12 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
                             LogPrintf("Minting --------------------->");
                         }
                     }
+                    mintTokens = true;
                     mintValue = txout.nValue*COIN;
+                    LogPrintf("Mint tokens ---------------------> %u", mintValue);
+                    if(mintValue < 0) {
+                        mintValue = -1 * mintValue; 
+                    }
                 }
             }
 
