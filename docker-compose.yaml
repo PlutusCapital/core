@@ -85,12 +85,12 @@ services:
       - ./plutus5-data:/app/.plutus
     restart: always
 
-  explorer:
-    build: ../explorer/.
-    command: ['sh', '-c', 'sleep 10 && ./blockbook -sync -blockchaincfg=./blockchaincfg.json -internal=:9030 -public=:9130 -logtostderr']
-    volumes:
-      - ../blockbook/build/blockchaincfg.json:/build/blockchaincfg.json
-      - explorer-data:/build/data
-    ports:
-      - "0.0.0.0:9030:9030"
-      - "0.0.0.0:80:9130"
+  # explorer:
+  #   build: ../explorer/.
+  #   command: ['sh', '-c', 'sleep 10 && ./blockbook -sync -blockchaincfg=./blockchaincfg.json -internal=:9030 -public=:9130 -logtostderr']
+  #   volumes:
+  #     - ../blockbook/build/blockchaincfg.json:/build/blockchaincfg.json
+  #     - explorer-data:/build/data
+  #   ports:
+  #     - "0.0.0.0:9030:9030"
+  #     - "0.0.0.0:80:9130"
