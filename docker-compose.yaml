@@ -37,7 +37,7 @@ services:
     build: .
     command: ['sh', '-c', '/app/entrypoint.sh']
     environment:
-      REMOTES: '47.56.206.105:51472'
+      REMOTES: '47.56.198.105:51472'
     ports:
       - "0.0.0.0:51473:51473"
       - "0.0.0.0:51472:51472"
@@ -63,7 +63,7 @@ services:
     build: .
     command: ['sh', '-c', '/app/entrypoint.sh']
     environment:
-      REMOTES: '47.56.204.181:51472'
+      REMOTES: '47.56.206.181:51472'
     ports:
       - "0.0.0.0:51473:51473"
       - "0.0.0.0:51472:51472"
@@ -76,7 +76,7 @@ services:
     build: .
     command: ['sh', '-c', '/app/entrypoint.sh']
     environment:
-      REMOTES: '47.56.206.181:51472, 47.56.204.240:51472, 47.56.198.105:51472'
+      REMOTES: '47.56.206.181:51472, 47.244.46.240:51472, 47.56.198.105:51472'
     ports:
       - "0.0.0.0:51473:51473"
       - "0.0.0.0:51472:51472"
