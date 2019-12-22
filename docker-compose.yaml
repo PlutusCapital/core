@@ -1,11 +1,11 @@
 version: "3.5"
 
 volumes:
-  pivx-data:
-  pivx1-data:
-  pivx2-data:
-  pivx3-data:
-  pivx4-data:
+  plutus-data:
+  plutus1-data:
+  plutus2-data:
+  plutus3-data:
+  plutus4-data:
   explorer-data:
 
 services:
@@ -17,7 +17,7 @@ services:
       - "0.0.0.0:51472:51472"
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
-      - ./pivx-data:/app/.pivx
+      - ./plutus-data:/app/.plutus
     restart: always
 
   n1:
@@ -30,7 +30,7 @@ services:
       - "0.0.0.0:51472:51472"
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
-      - ./pivx1-data:/app/.pivx
+      - ./plutus1-data:/app/.plutus
     restart: always
 
   n2:
@@ -43,7 +43,7 @@ services:
       - "0.0.0.0:51472:51472"
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
-      - ./pivx2-data:/app/.pivx
+      - ./plutus2-data:/app/.plutus
     restart: always
 
   n3:
@@ -56,7 +56,7 @@ services:
       - "0.0.0.0:51474:51472"
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
-      - ./pivx3-data:/app/.pivx
+      - ./plutus3-data:/app/.plutus
     restart: always
 
   n4:
@@ -69,7 +69,7 @@ services:
       - "0.0.0.0:51472:51472"
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
-      - ./pivx4-data:/app/.pivx
+      - ./plutus4-data:/app/.plutus
     restart: always
 
   n5:
@@ -82,7 +82,7 @@ services:
       - "0.0.0.0:51472:51472"
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
-      - ./pivx5-data:/app/.pivx
+      - ./plutus5-data:/app/.plutus
     restart: always
 
   explorer:
