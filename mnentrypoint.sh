@@ -12,13 +12,14 @@ for i in "$@"; do # access each element of array
    echo "addnode = $i" >> ./plutus.conf
 done
 
-echo "server=1" >> ./plutus.conf
-echo "daemon=1" >> ./plutus.conf
-echo "logtimestamps=1" >> ./plutus.conf
-echo "maxconnections=256" >> ./plutus.conf
-echo "masternode=1" >> ./plutus.conf
-echo "externalip= $IP" >> ./plutus.conf
-echo "masternodeprivkey= $PRIVKEY" >> ./plutus.conf
+# echo "server=1" >> ./plutus.conf
+# echo "discover=0" >> ./plutus.conf
+# echo "daemon=1" >> ./plutus.conf
+# echo "logtimestamps=1" >> ./plutus.conf
+# echo "maxconnections=256" >> ./plutus.conf
+# echo "masternode=1" >> ./plutus.conf
+# echo "externalip=$IP" >> ./plutus.conf
+# echo "masternodeprivkey=$PRIVKEY" >> ./plutus.conf
 echo "rpcuser=rpcuser" >> ./plutus.conf
 echo "rpcpassword=111111" >> ./plutus.conf
 echo "rpcallowip=10.1.1.34/255.255.255.0" >> ./plutus.conf
