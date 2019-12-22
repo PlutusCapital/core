@@ -3,6 +3,9 @@ version: "3.5"
 volumes:
   pivx-data:
   pivx1-data:
+  pivx2-data:
+  pivx3-data:
+  pivx4-data:
   explorer-data:
 
 services:
@@ -21,13 +24,65 @@ services:
     build: .
     command: ['sh', '-c', '/app/entrypoint.sh']
     environment:
-      REMOTES: ':51472'
+      REMOTES: '47.56.198.105:51472'
     ports:
       - "0.0.0.0:51473:51473"
       - "0.0.0.0:51472:51472"
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
       - ./pivx1-data:/app/.pivx
+    restart: always
+
+  n2:
+    build: .
+    command: ['sh', '-c', '/app/entrypoint.sh']
+    environment:
+      REMOTES: '47.56.206.181:51472'
+    ports:
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./pivx2-data:/app/.pivx
+    restart: always
+
+  n3:
+    build: .
+    command: ['sh', '-c', '/app/entrypoint.sh']
+    environment:
+      REMOTES: '47.56.206.181:51472'
+    ports:
+      - "0.0.0.0:51475:51473"
+      - "0.0.0.0:51474:51472"
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./pivx3-data:/app/.pivx
+    restart: always
+
+  n4:
+    build: .
+    command: ['sh', '-c', '/app/entrypoint.sh']
+    environment:
+      REMOTES: '47.56.204.89:51472'
+    ports:
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./pivx4-data:/app/.pivx
+    restart: always
+
+  n5:
+    build: .
+    command: ['sh', '-c', '/app/entrypoint.sh']
+    environment:
+      REMOTES: '47.56.206.181:51472, 47.56.204.89:51472, 47.56.198.105:51472'
+    ports:
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./pivx5-data:/app/.pivx
     restart: always
 
   explorer:
@@ -39,5 +94,3 @@ services:
     ports:
       - "0.0.0.0:9030:9030"
       - "0.0.0.0:80:9130"
-    depends_on: 
-      - n0
