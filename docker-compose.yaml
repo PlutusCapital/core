@@ -91,14 +91,29 @@ services:
     command: ['sh', '-c', '/app/entrypoint.sh']
     environment:
       REMOTES: '47.56.206.181:51472, 47.244.46.240:51472, 47.56.198.105:51472'
-      IP: ''
-      PRIVKEY: ''
+      IP: '27.7.252.231'
+      PRIVKEY: '87qduqiuQTRjFRjvT3RWBjpQvCcE2Sv87hcBkaepmVPWjRJvr2W'
     ports:
       - "0.0.0.0:11012:51473"
       - "0.0.0.0:11011:51472"
     volumes:
       - ./mnentrypoint.sh:/app/entrypoint.sh
-      - ./mn1:/app/.plutus
+      - ./masternode1.conf:/app/.plutus/masternode.conf
+    restart: always
+
+  mn2:
+    build: .
+    command: ['sh', '-c', '/app/entrypoint.sh']
+    environment:
+      REMOTES: '47.56.206.181:51472, 47.244.46.240:51472, 47.56.198.105:51472'
+      IP: '27.7.252.231'
+      PRIVKEY: '87qduqiuQTRjFRjvT3RWBjpQvCcE2Sv87hcBkaepmVPWjRJvr2W'
+    ports:
+      - "0.0.0.0:11012:51473"
+      - "0.0.0.0:11011:51472"
+    volumes:
+      - ./mnentrypoint.sh:/app/entrypoint.sh
+      - ./masternode2.conf:/app/.plutus/masternode.conf
     restart: always
 
   # explorer:
