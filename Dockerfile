@@ -16,11 +16,11 @@ RUN apt-get install libdb4.8-dev libdb4.8++-dev libgmp-dev libminiupnpc-dev libe
 
 WORKDIR /app
 
-ADD ./src/pivxd /app
-ADD ./src/pivx-cli /app
+ADD ./src/plutusd /app
+ADD ./src/plutus-cli /app
 
 ADD ./entrypoint.sh /app
 
 RUN chmod 777 /app/entrypoint.sh
-RUN chmod 777 /app/pivxd
-RUN chmod 777 /app/pivx-cli
+RUN chmod 777 /app/plutusd
+RUN chmod 777 /app/plutus-cli
