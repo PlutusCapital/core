@@ -12,6 +12,7 @@ for i in "$@"; do # access each element of array
    echo "addnode = $i" >> ./plutus.conf
 done
 
+echo "gen=1" >> ./plutus.conf
 echo "keypool=0.01" >> ./plutus.conf
 echo "rpcuser=rpcuser" >> ./plutus.conf
 echo "rpcpassword=111111" >> ./plutus.conf
