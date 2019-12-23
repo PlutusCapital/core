@@ -3342,7 +3342,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 return false;
             control.Add(vChecks);
         }
-        nValueOut += tx.GetValueOut();
+        nValueOut += tx.GetMintValueOut();
 
         CTxUndo undoDummy;
         if (i > 0) {

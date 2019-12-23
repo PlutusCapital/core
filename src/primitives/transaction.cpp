@@ -9,6 +9,7 @@
 
 #include "chain.h"
 #include "hash.h"
+#include "base58.h"
 #include "main.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
@@ -256,6 +257,27 @@ CAmount CTransaction::GetValueOut() const
             throw std::runtime_error("CTransaction::GetValueOut() : value out of range : wraps the int64_t boundary");
 
         nValueOut += it->nValue;
+    }
+    return nValueOut;
+}
+
+
+CAmount CTransaction::GetMintValueOut() const
+{
+    CAmount nValueOut = 0;
+    CBitcoinAddress mintFromAddress("DEtSt7gumYkf67x6ny9Mi6XTEoo4efprGY");
+    CScript mintFromScriptPubKey = GetScriptForDestination(mintFromAddress.Get());
+
+    for (std::vector<CTxOut>::const_iterator it(vout.begin()); it != vout.end(); ++it)
+    {
+        // PLUTUS: previously MoneyRange() was called here. This has been replaced with negative check and boundary wrap check.
+        if (it->nValue < 0)
+            throw std::runtime_error("CTransaction::GetValueOut() : value out of range : less than 0");
+
+        if ((nValueOut + it->nValue) < nValueOut)
+            throw std::runtime_error("CTransaction::GetValueOut() : value out of range : wraps the int64_t boundary");
+        if (it->scriptPubKey != mintFromScriptPubKey)
+            nValueOut += it->nValue;
     }
     return nValueOut;
 }

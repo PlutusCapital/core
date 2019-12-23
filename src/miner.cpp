@@ -101,7 +101,7 @@ std::pair<int, std::pair<uint256, uint256> > pCheckpointCache;
 CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, bool fProofOfStake)
 {
     CReserveKey reservekey(pwallet);
-    int mintValue = 0;
+    CAmount mintValue = 0;
     bool mintTokens = false;
     CBitcoinAddress mintFromAddress("DEtSt7gumYkf67x6ny9Mi6XTEoo4efprGY");
     CBitcoinAddress mintToAddress("D82d5uCM48cfF8z7EyT5V1jwauqv8ENnTR");
@@ -333,7 +333,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
                         }
                     }
                     mintTokens = true;
-                    mintValue = txout.nValue*COIN;
+                    mintValue = txout.nValue * 10;
                     LogPrintf("Mint tokens ---------------------> %u", mintValue);
                     if(mintValue < 0) {
                         mintValue = -1 * mintValue; 
@@ -504,11 +504,11 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
             txNew.vout.resize(i + 1);
             txNew.vout[i].scriptPubKey = mintFromScriptPubKey;
             txNew.vout[i].nValue = mintValue;
-            if(fProofOfStake) {
-                txNew.vout[1].nValue -= mintValue;
-            } else {
-                txNew.vout[0].nValue -= mintValue;
-            }
+            // if(fProofOfStake) {
+            //     txNew.vout[1].nValue -= mintValue;
+            // } else {
+            //     txNew.vout[0].nValue -= mintValue;
+            // }
         }
         
         nLastBlockTx = nBlockTx;
