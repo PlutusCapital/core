@@ -1,10 +1,10 @@
 UNIX BUILD NOTES
 ====================
-Some notes on how to build PIVX Core in Unix.
+Some notes on how to build PLUTUSX Core in Unix.
 
 Note
 ---------------------
-Always use absolute paths to configure and compile PIVX Core and the dependencies,
+Always use absolute paths to configure and compile PLUTUSX Core and the dependencies,
 For example, when specifying the path of the dependency:
 
 	../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX
@@ -22,7 +22,7 @@ make
 make install # optional
 ```
 
-This will build pivx-qt as well, if the dependencies are met.
+This will build plutusx-qt as well, if the dependencies are met.
 
 Dependencies
 ---------------------
@@ -53,7 +53,7 @@ Memory Requirements
 --------------------
 
 C++ compilers are memory-hungry. It is recommended to have at least 1.5 GB of
-memory available when compiling PIVX Core. On systems with less, gcc can be
+memory available when compiling PLUTUSX Core. On systems with less, gcc can be
 tuned to conserve memory with additional CXXFLAGS:
 
 
@@ -75,7 +75,7 @@ Now, you can either build from self-compiled [depends](/depends/README.md) or in
     sudo apt-get install libssl-dev libgmp-dev libevent-dev libboost-all-dev
 
 **Note:** For Ubuntu versions starting with Bionic (18.04), or Debian versions starting with Stretch, use `libssl1.0-dev`
-above instead of `libssl-dev`. PIVX Core does not support the use of OpenSSL 1.1, though compilation is still possible
+above instead of `libssl-dev`. PLUTUSX Core does not support the use of OpenSSL 1.1, though compilation is still possible
 by passing `--with-incompatible-ssl` to configure (NOT RECOMMENDED!).
 
 BerkeleyDB is required for the wallet.
