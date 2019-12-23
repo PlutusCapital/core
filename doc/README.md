@@ -25,13 +25,13 @@ Inside VM:
 7. > docker exec masternode bash
 
 Inside bash:
-> ./plutus-cli -datadirimportprivkey {privateKey}
-> ./plutus-cli -datadir=./.plutus createmasternodekey | NOTE: {masternodeKey}
-> ./plutus-cli -datadir=./.plutus getaccountaddress {accountName} | NOTE: {accountAddress}
-> ./plutus-cli -datadir=./.plutus sendtoaddress {accountAddress} 1000
-> Wait for sometime so that the transaction is mined in the chain
-> ./plutus-cli -datadir=./.plutus getmasternodeoutputs | Note: {txhash} {outputidx}
-> exit
+1. > ./plutus-cli -datadirimportprivkey {privateKey}
+2. > ./plutus-cli -datadir=./.plutus createmasternodekey | NOTE: {masternodeKey}
+3. > ./plutus-cli -datadir=./.plutus getaccountaddress {accountName} | NOTE: {accountAddress}
+4. > ./plutus-cli -datadir=./.plutus sendtoaddress {accountAddress} 1000
+5. > Wait for sometime so that the transaction is mined in the chain
+6. > ./plutus-cli -datadir=./.plutus getmasternodeoutputs | Note: {txhash} {outputidx}
+7. > exit
 
 Inside VM:
 1. > docker-compose down -v
@@ -49,5 +49,5 @@ Inside VM:
 7. > docker exec {accountName} bash
 
 Inside bash:
-> ./plutus-cli -datadir=./.plutus startmasternode alias false {accountName}
-> ./plutus-cli -datadir=./.plutus startmasternode local false
+1. > ./plutus-cli -datadir=./.plutus startmasternode alias false {accountName}
+2. > ./plutus-cli -datadir=./.plutus startmasternode local false
