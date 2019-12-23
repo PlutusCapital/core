@@ -18,7 +18,7 @@ Setup
 Inside VM:
 1. > mkdir plutus
 2. > cd plutus
-3.   Download the archive from 
+3.   Download the archive from https://drive.google.com/drive/folders/1LdJFBbQhT4nhNQTnC2DLVrRBpJsTMc4u?usp=sharing
 4. > unzip node.zip
 5. > docker-compose -f masternode.yaml build
 6. > docker-compose -f masternode.yaml up -d
