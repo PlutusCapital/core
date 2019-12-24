@@ -1,5 +1,6 @@
-UNIX BUILD NOTES
-====================
+UNIX BUILD NOTES (to build from scratch)
+=========================================
+
 Some notes on how to build PLUTUSX Core in Unix.
 
 Note
@@ -15,7 +16,8 @@ the usage of the absolute path.
 To Build
 ---------------------
 
-```bash
+```
+bash
 ./autogen.sh
 ./configure
 make
