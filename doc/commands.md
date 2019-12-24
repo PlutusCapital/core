@@ -4,8 +4,7 @@ Basic CLI Commands
 These dependencies are required:
 
  Command              | Parameters         
- ---------------------|------------------------------------------------------------------------
- addnode              | Crypto             
+ ---------------------|------------------------------------------------------------------------           
  getaccountaddress    | accountname        
  getbalance           | accountname         
  getblock             | hash
