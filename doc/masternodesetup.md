@@ -24,7 +24,7 @@ Inside VM:
 4. > unzip node.zip
 5. > docker-compose -f masternode.yaml build
 6. > docker-compose -f masternode.yaml up -d
-7. > docker exec masternode bash
+7. > docker-compose -f masternode.yaml exec mn2 bash
 
 Inside bash:
 1. > ./plutus-cli -datadirimportprivkey {privateKey}
