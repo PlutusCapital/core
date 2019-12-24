@@ -27,7 +27,7 @@ Inside VM:
 7. > docker-compose -f masternode.yaml exec mn2 bash
 
 Inside bash:
-1. > ./plutus-cli -datadirimportprivkey {privateKey}
+1. > ./plutus-cli -datadir=./.plutus importprivkey {privateKey}
 2. > ./plutus-cli -datadir=./.plutus createmasternodekey | NOTE: {masternodeKey}
 3. > ./plutus-cli -datadir=./.plutus getaccountaddress {accountName} | NOTE: {accountAddress}
 4. > ./plutus-cli -datadir=./.plutus sendtoaddress {accountAddress} 1000
