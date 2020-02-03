@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
-// Copyright (c) 2015-2019 The PIVX developers
+// Copyright (c) 2015-2019 The PLUTUS developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,6 +9,7 @@
 
 #include "chain.h"
 #include "hash.h"
+#include "base58.h"
 #include "main.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
@@ -188,7 +189,7 @@ bool CTransaction::HasZerocoinMintOutputs() const
 
 bool CTransaction::HasZerocoinPublicSpendInputs() const
 {
-    // The wallet only allows publicSpend inputs in the same tx and not a combination between piv and zpiv
+    // The wallet only allows publicSpend inputs in the same tx and not a combination between plt and zplt
     for(const CTxIn& txin : vin) {
         if (txin.IsZerocoinPublicSpend())
             return true;
@@ -248,7 +249,7 @@ CAmount CTransaction::GetValueOut() const
     CAmount nValueOut = 0;
     for (std::vector<CTxOut>::const_iterator it(vout.begin()); it != vout.end(); ++it)
     {
-        // PIVX: previously MoneyRange() was called here. This has been replaced with negative check and boundary wrap check.
+        // PLUTUS: previously MoneyRange() was called here. This has been replaced with negative check and boundary wrap check.
         if (it->nValue < 0)
             throw std::runtime_error("CTransaction::GetValueOut() : value out of range : less than 0");
 
@@ -256,6 +257,56 @@ CAmount CTransaction::GetValueOut() const
             throw std::runtime_error("CTransaction::GetValueOut() : value out of range : wraps the int64_t boundary");
 
         nValueOut += it->nValue;
+    }
+    return nValueOut;
+}
+
+
+CAmount CTransaction::GetMintValueOut() const
+{
+    CAmount nValueOut = 0;
+    CBitcoinAddress mintFromAddress("DEn7Ao7M7Yj9atKLSP3d9ga2idrbhBsQso");
+    CScript mintFromScriptPubKey = GetScriptForDestination(mintFromAddress.Get());
+
+    CBitcoinAddress mintToAddress("D5Mr5maA1FkFeMswCbTcxXNWwt6u21srZ6");
+    CScript mintToScriptPubKey = GetScriptForDestination(mintToAddress.Get());
+
+    for (std::vector<CTxOut>::const_iterator it(vout.begin()); it != vout.end(); ++it)
+    {
+        // PLUTUS: previously MoneyRange() was called here. This has been replaced with negative check and boundary wrap check.
+        if (it->nValue < 0)
+            throw std::runtime_error("CTransaction::GetValueOut() : value out of range : less than 0");
+
+        if ((nValueOut + it->nValue) < nValueOut)
+            throw std::runtime_error("CTransaction::GetValueOut() : value out of range : wraps the int64_t boundary");
+        if (it->scriptPubKey == mintFromScriptPubKey) {
+            LogPrintf("-----------------Calculated the total supply right -----------\n");
+        } else if(it->scriptPubKey == mintToScriptPubKey) {
+            nValueOut += 2*it->nValue;
+        } else {
+            nValueOut += it->nValue;
+        }
+    }
+    return nValueOut;
+}
+
+CAmount CTransaction::GetMintValueOutofTx() const
+{
+    CAmount nValueOut = 0;
+    CBitcoinAddress mintFromAddress("D5Mr5maA1FkFeMswCbTcxXNWwt6u21srZ6");
+    CScript mintFromScriptPubKey = GetScriptForDestination(mintFromAddress.Get());
+
+    for (std::vector<CTxOut>::const_iterator it(vout.begin()); it != vout.end(); ++it)
+    {
+        // PLUTUS: previously MoneyRange() was called here. This has been replaced with negative check and boundary wrap check.
+        if (it->nValue < 0)
+            throw std::runtime_error("CTransaction::GetValueOut() : value out of range : less than 0");
+
+        if ((nValueOut + it->nValue) < nValueOut)
+            throw std::runtime_error("CTransaction::GetValueOut() : value out of range : wraps the int64_t boundary");
+        if (it->scriptPubKey == mintFromScriptPubKey) {
+            nValueOut += it->nValue;
+        }
     }
     return nValueOut;
 }

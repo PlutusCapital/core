@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=PLUTUS Core
+Comment=PLUTUS P2P Cryptocurrency
+Comment[fr]=PLUTUS, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=PLUTUS, eşten eşe kriptografik sanal para birimi
+Exec=plutus-qt %u
+Terminal=false
+Type=Application
+Icon=plutus128
+MimeType=x-scheme-handler/plutus;
+Categories=Office;Finance;
+StartupWMClass=Plutus-qt

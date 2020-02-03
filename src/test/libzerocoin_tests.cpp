@@ -9,7 +9,7 @@
 * @copyright  Copyright 2013 Ian Miers, Christina Garman and Matthew Green
 * @license    This project is released under the MIT license.
 **/
-// Copyright (c) 2017-2018 The PIVX developers
+// Copyright (c) 2017-2018 The PLUTUS developers
 
 #include <boost/test/unit_test.hpp>
 #include <string>
@@ -24,7 +24,7 @@
 #include "libzerocoin/Coin.h"
 #include "libzerocoin/CoinSpend.h"
 #include "libzerocoin/Accumulator.h"
-#include "test_pivx.h"
+#include "test_plutus.h"
 
 
 #define COLOR_STR_GREEN   "\033[32m"

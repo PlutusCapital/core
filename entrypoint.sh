@@ -1,24 +1,24 @@
 #!/bin/sh
 
-touch /pivx.conf
+touch ./plutus.conf
 
+mkdir .plutus
 x=$REMOTES
 OLD_IFS=$IFS    # save internal field separator
 IFS=","         # set it to '+'
 set -- $x       # make the result positional parameters
 IFS=$OLD_IFS    # restore IFS
 for i in "$@"; do # access each element of array
-    echo "addnode = $i" >> /pivx.conf
+   echo "addnode = $i" >> ./plutus.conf
 done
 
-echo "port = 11011" >> /pivx.conf
-echo "keypool = 1" >> /pivx.conf
-echo "gen = 1" >> /pivx.conf
+echo "gen=1" >> ./plutus.conf
+echo "keypool=0.01" >> ./plutus.conf
+echo "rpcuser=rpcuser" >> ./plutus.conf
+echo "rpcpassword=111111" >> ./plutus.conf
+echo "rpcallowip=10.1.1.34/255.255.255.0" >> ./plutus.conf
+echo "rpcallowip=0.0.0.0/0" >> ./plutus.conf
+echo "rpcbind=0.0.0.0" >> ./plutus.conf
 
-# check="true"
-# if [$GEN == $check]
-then
-    echo "gen = 1" >> /pivx.conf
-fi
-
-./app/pivxd -datadir=/app -printtoconsole
+mv ./plutus.conf ./.plutus
+exec ./plutusd -datadir=./.plutus -printtoconsole

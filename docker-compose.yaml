@@ -1,30 +1,61 @@
 version: "3.5"
 
 volumes:
-  node-0:
-  node-1:
+  plutus-data:
+  plutus1-data:
+  plutus2-data:
+  plutus3-data:
+  plutus4-data:
+  explorer-data:
+  mn1:
 
 services:
   n0:
     build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
-    environment:
-      REMOTES: '192.168.10.187:11011,192.168.10.187:11012'
-      GEN: 'true'
+    command: [/app/entrypoint.sh]
     ports:
-      - "0.0.0.0:11011:11011"
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
     volumes:
-      - node-0:/data
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./plutus-data:/app/.plutus
     restart: always
 
   n1:
     build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
+    command: [/app/entrypoint.sh]
     environment:
-      REMOTES: '192.168.10.187:11011,192.168.10.187:11012'
-      GEN: 'true'
+      REMOTES: '47.89.27.192:51472'
     ports:
-      - "0.0.0.0:11012:11011"
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
     volumes:
-      - node-1:/data
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./plutus1-data:/app/.plutus
+    restart: always
+
+  n2:
+    build: .
+    command: [/app/entrypoint.sh]
+    environment:
+      REMOTES: '47.56.69.103:51472'
+    ports:
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./plutus2-data:/app/.plutus
+    restart: always
+
+  n3:
+    build: .
+    command: [/app/entrypoint.sh]
+    environment:
+      REMOTES: '47.244.129.103:51472'
+    ports:
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./plutus3-data:/app/.plutus
     restart: always

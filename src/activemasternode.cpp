@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2016 The Dash developers
-// Copyright (c) 2015-2019 The PIVX developers
+// Copyright (c) 2015-2019 The PLUTUS developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,7 +13,7 @@
 #include "spork.h"
 
 //
-// Bootup the Masternode, look for a 10000 PIVX input and register on the network
+// Bootup the Masternode, look for a 10000 PLUTUS input and register on the network
 //
 void CActiveMasternode::ManageStatus()
 {
@@ -52,11 +52,11 @@ void CActiveMasternode::ManageStatus()
             return;
         }
 
-        if (pwalletMain->GetBalance() == 0) {
-            notCapableReason = "Hot node, waiting for remote activation.";
-            LogPrintf("CActiveMasternode::ManageStatus() - not capable: %s\n", notCapableReason);
-            return;
-        }
+        // if (pwalletMain->GetBalance() == 0) {
+        //     notCapableReason = "Hot node, waiting for remote activation.";
+        //     LogPrintf("CActiveMasternode::ManageStatus() - not capable: %s\n", notCapableReason);
+        //     return;
+        // }
 
         if (strMasterNodeAddr.empty()) {
             if (!GetLocal(service)) {
@@ -443,6 +443,7 @@ std::vector<COutput> CActiveMasternode::SelectCoinsMasternode()
 
     // Temporary unlock MN coins from masternode.conf
     if (GetBoolArg("-mnconflock", true)) {
+        LogPrintf("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         uint256 mnTxHash;
         for (CMasternodeConfig::CMasternodeEntry mne : masternodeConfig.getEntries()) {
             mnTxHash.SetHex(mne.getTxHash());
@@ -468,7 +469,7 @@ std::vector<COutput> CActiveMasternode::SelectCoinsMasternode()
 
     // Filter
     for (const COutput& out : vCoins) {
-        if (out.tx->vout[out.i].nValue == 10000 * COIN) { //exactly
+        if (out.tx->vout[out.i].nValue >= 1000 * COIN) { //exactly
             filteredCoins.push_back(out);
         }
     }

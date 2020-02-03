@@ -1,0 +1,8 @@
+/usr/bin/plutus-cli		--	gen_context(system_u:object_r:plutus_exec_t,s0)
+/usr/sbin/plutusd		--	gen_context(system_u:object_r:plutus_exec_t,s0)
+/usr/lib(64)?/plutus/plutusd		--	gen_context(system_u:object_r:plutus_exec_t,s0)
+
+/etc/plutus(/.*)?		gen_context(system_u:object_r:plutus_conf_t,s0)
+/var/lib/plutus(/.*)?		gen_context(system_u:object_r:plutus_var_lib_t,s0)
+
+(/var)?/run/plutusd(/.*)?   gen_context(system_u:object_r:plutus_var_run_t,s0)

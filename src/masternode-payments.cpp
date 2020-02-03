@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2019 The PIVX developers
+// Copyright (c) 2015-2019 The PLUTUS developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -321,7 +321,7 @@ bool IsBlockPayeeValid(const CBlock& block, int nBlockHeight)
 }
 
 
-void FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake, bool fZPIVStake)
+void FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake, bool fZPLTStake)
 {
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (!pindexPrev) return;
@@ -329,7 +329,7 @@ void FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStak
     if (sporkManager.IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(pindexPrev->nHeight + 1)) {
         budget.FillBlockPayee(txNew, nFees, fProofOfStake);
     } else {
-        masternodePayments.FillBlockPayee(txNew, nFees, fProofOfStake, fZPIVStake);
+        masternodePayments.FillBlockPayee(txNew, nFees, fProofOfStake, fZPLTStake);
     }
 }
 
@@ -342,7 +342,7 @@ std::string GetRequiredPaymentsString(int nBlockHeight)
     }
 }
 
-void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFees, bool fProofOfStake, bool fZPIVStake)
+void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFees, bool fProofOfStake, bool fZPLTStake)
 {
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (!pindexPrev) return;
@@ -350,63 +350,114 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
     bool hasPayment = true;
     CScript payee;
 
-    //spork
-    if (!masternodePayments.GetBlockPayee(pindexPrev->nHeight + 1, payee)) {
-        //no masternode detected
-        CMasternode* winningNode = mnodeman.GetCurrentMasterNode(1);
+    int masterNodeCount = mnodeman.MasterNodeCount();
+    CAmount blockrate, masternodeCredit = 0;
+
+    CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
+    CAmount totalMoneySupply = pindexPrev->nActualMoneySupply;
+    CAmount totalMasternodeStake = 0;
+
+    if(pindexPrev->nHeight > 4) {
+        blockrate = (pindexPrev->nTime - pindexPrev->pprev->pprev->pprev->pprev->nTime)/4;
+        blockrate = blockrate == 0 ? 1 : blockrate;
+    }
+
+    if(masterNodeCount > 0 && !fProofOfStake) {
+        txNew.vout[0].nValue = blockValue;
+    }
+
+
+    //Calculate total amount staked by all masternodes
+    for(int index=0; index < masterNodeCount; index++) {
+        CMasternode* winningNode = mnodeman.GetMasterNodeByIndex(index);
         if (winningNode) {
             payee = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
         } else {
             LogPrint("masternode","CreateNewBlock: Failed to detect masternode to pay\n");
             hasPayment = false;
         }
+
+        CCoinsViewCache view(pcoinsTip);
+        const CCoins* coins = view.AccessCoins(winningNode->vin.prevout.hash);
+        assert(coins);
+        
+        CAmount masterBalance = coins->vout[winningNode->vin.prevout.n].nValue;
+        totalMasternodeStake += masterBalance;
     }
 
-    CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
-    CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight, blockValue, 0, fZPIVStake);
+    CAmount masternodePaymentRate = 0;
+    CAmount masterStakeOfTotalsupplyPercentage = (totalMasternodeStake/totalMoneySupply) * 100;
+    CAmount totalSecondsInYear = 31536000;
+    CAmount multiplier = 100000;
 
-    if (hasPayment) {
-        if (fProofOfStake) {
-            /**For Proof Of Stake vout[0] must be null
-             * Stake reward can be split into many different outputs, so we must
-             * use vout.size() to align with several different cases.
-             * An additional output is appended as the masternode payment
-             */
-            unsigned int i = txNew.vout.size();
-            txNew.vout.resize(i + 1);
-            txNew.vout[i].scriptPubKey = payee;
-            txNew.vout[i].nValue = masternodePayment;
+    if (masterStakeOfTotalsupplyPercentage < 1)
+    {
+        CAmount divider = 1*totalSecondsInYear;
+        masternodePaymentRate = (multiplier * 300 * blockrate)/divider;
+    } else if (masterStakeOfTotalsupplyPercentage >=1 && masterStakeOfTotalsupplyPercentage < 3) {
+        CAmount divider = (1 - (3/(4*masterStakeOfTotalsupplyPercentage)))*totalSecondsInYear;
+        masternodePaymentRate = multiplier * ((75 * blockrate)/divider);
+    } else if (masterStakeOfTotalsupplyPercentage >=3 && masterStakeOfTotalsupplyPercentage < 10) {
+        CAmount divider = 17*(1 - (30/(17*masterStakeOfTotalsupplyPercentage)))*totalSecondsInYear;
+        masternodePaymentRate = multiplier * ((700 * blockrate)/divider);
+    } else if (masterStakeOfTotalsupplyPercentage >=10 && masterStakeOfTotalsupplyPercentage < 50) {
+        CAmount divider = 119*(1 - (950/(119*masterStakeOfTotalsupplyPercentage)))*totalSecondsInYear;
+        masternodePaymentRate = multiplier * ((1200 * blockrate)/divider);
+    } else {
+        CAmount divider = 7*(1 - (300/(7*masterStakeOfTotalsupplyPercentage)))*totalSecondsInYear;
+        masternodePaymentRate = multiplier * ((12 * blockrate)/divider);
+    }
 
-            //subtract mn payment from the stake reward
-            if (!txNew.vout[1].IsZerocoinMint()) {
-                if (i == 2) {
-                    // Majority of cases; do it quick and move on
-                    txNew.vout[i - 1].nValue -= masternodePayment;
-                } else if (i > 2) {
-                    // special case, stake is split between (i-1) outputs
-                    unsigned int outputs = i-1;
-                    CAmount mnPaymentSplit = masternodePayment / outputs;
-                    CAmount mnPaymentRemainder = masternodePayment - (mnPaymentSplit * outputs);
-                    for (unsigned int j=1; j<=outputs; j++) {
-                        txNew.vout[j].nValue -= mnPaymentSplit;
-                    }
-                    // in case it's not an even division, take the last bit of dust from the last one
-                    txNew.vout[outputs].nValue -= mnPaymentRemainder;
-                }
-            }
+    LogPrintf("== masternodePaymentRate === %u === toatal staked ==== %u ==== blockrate === %u", masternodePaymentRate, totalMasternodeStake, blockrate);
+    for(int index=0; index < masterNodeCount; index++) {
+        CMasternode* winningNode = mnodeman.GetMasterNodeByIndex(index);
+        if (winningNode) {
+            payee = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
         } else {
-            txNew.vout.resize(2);
-            txNew.vout[1].scriptPubKey = payee;
-            txNew.vout[1].nValue = masternodePayment;
-            txNew.vout[0].nValue = blockValue - masternodePayment;
+            LogPrint("masternode","CreateNewBlock: Failed to detect masternode to pay\n");
+            hasPayment = false;
         }
 
-        CTxDestination address1;
-        ExtractDestination(payee, address1);
-        CBitcoinAddress address2(address1);
+        CCoinsViewCache view(pcoinsTip);
+        const CCoins* coins = view.AccessCoins(winningNode->vin.prevout.hash);
+        assert(coins);
 
-        LogPrint("masternode","Masternode payment of %s to %s\n", FormatMoney(masternodePayment).c_str(), address2.ToString().c_str());
+        blockrate = blockrate == 0 ? 1 : blockrate; 
+        
+        CAmount masterBalance = coins->vout[winningNode->vin.prevout.n].nValue;
+        
+        CAmount masternodeStake = masterBalance;
+        CAmount masternodePayment = (masternodePaymentRate * masterBalance) / (multiplier *100);
+
+        if (hasPayment) {
+            if (fProofOfStake) {
+                /**For Proof Of Stake vout[0] must be null
+                 * Stake reward can be split into many different outputs, so we must
+                 * use vout.size() to align with several different cases.
+                 * An additional output is appended as the masternode payment
+                 */
+                unsigned int i = txNew.vout.size();
+                txNew.vout.resize(i + 1);
+                txNew.vout[i].scriptPubKey = payee;
+                txNew.vout[i].nValue = masternodePayment;
+                masternodeCredit += masternodePayment;
+            } else {
+                txNew.vout.resize(2);
+                txNew.vout[1].scriptPubKey = payee;
+                txNew.vout[1].nValue = masternodePayment;
+                txNew.vout[0].nValue = (blockValue - masternodePayment) < 0 ? 0 : (blockValue - masternodePayment);
+            }
+
+            CTxDestination address1;
+            ExtractDestination(payee, address1);
+            CBitcoinAddress address2(address1);
+
+            LogPrint("masternode","Masternode payment of %s to %s\n", FormatMoney(masternodePayment).c_str(), address2.ToString().c_str());
+        }
     }
+    // if(fProofOfStake) {
+    //     txNew.vout[1].nValue -= masternodeCredit;
+    // }
 }
 
 int CMasternodePayments::GetMinMasternodePaymentsProto()

@@ -1,0 +1,6 @@
+usr/local/bin/plutus-qt usr/bin
+share/pixmaps/plutus32.xpm usr/share/pixmaps
+share/pixmaps/plutus16.xpm usr/share/pixmaps
+share/pixmaps/plutus128.png usr/share/pixmaps
+debian/plutus-qt.desktop usr/share/applications
+debian/plutus-qt.protocol usr/share/kde4/services/
