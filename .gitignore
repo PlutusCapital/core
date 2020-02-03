@@ -45,41 +45,41 @@ src/qt/test/test_plutus-qt
 # share/qt/Info.plist
 # contrib/devtools/split-debug.sh
 
-# src/univalue/gen
+src/univalue/gen
 
-# src/qt/*.moc
-# src/qt/moc_*.cpp
-# src/qt/forms/ui_*.h
+src/qt/*.moc
+src/qt/moc_*.cpp
+src/qt/forms/ui_*.h
 
-# src/qt/test/moc*.cpp
+src/qt/test/moc*.cpp
 
-# .deps
-# .dirstamp
-# .libs
-# .*.swp
-# *.*~*
-# *.bak
-# *.rej
-# *.orig
-# *.pyc
-# *.o
-# *.o-*
-# *.patch
-# .plutus
-# *.a
-# *.pb.cc
-# *.pb.h
+.deps
+.dirstamp
+.libs
+.*.swp
+*.*~*
+*.bak
+*.rej
+*.orig
+*.pyc
+*.o
+*.o-*
+*.patch
+.plutus
+*.a
+*.pb.cc
+*.pb.h
 
-# *.log
-# *.trs
-# *.dmg
+*.log
+*.trs
+*.dmg
 
 # *.json.h
 # *.raw.h
 
-# #libtool object files
-# *.lo
-# *.la
+#libtool object files
+*.lo
+*.la
 
 # # Compilation and Qt preprocessor part
 # *.qm
