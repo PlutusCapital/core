@@ -351,22 +351,67 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
     CScript payee;
 
     int masterNodeCount = mnodeman.MasterNodeCount();
-    int blockrate, masternodeCredit = 0; 
+    CAmount blockrate, masternodeCredit = 0;
 
     CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
+    CAmount totalMoneySupply = pindexPrev->nActualMoneySupply;
+    CAmount totalMasternodeStake = 0;
 
     if(pindexPrev->nHeight > 4) {
         blockrate = (pindexPrev->nTime - pindexPrev->pprev->pprev->pprev->pprev->nTime)/4;
+        blockrate = blockrate == 0 ? 1 : blockrate;
     }
 
     if(masterNodeCount > 0 && !fProofOfStake) {
         txNew.vout[0].nValue = blockValue;
     }
 
+
+    //Calculate total amount staked by all masternodes
     for(int index=0; index < masterNodeCount; index++) {
         CMasternode* winningNode = mnodeman.GetMasterNodeByIndex(index);
         if (winningNode) {
-            blockrate = (pindexPrev->nTime - pindexPrev->pprev->pprev->pprev->pprev->nTime)/4;
+            payee = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
+        } else {
+            LogPrint("masternode","CreateNewBlock: Failed to detect masternode to pay\n");
+            hasPayment = false;
+        }
+
+        CCoinsViewCache view(pcoinsTip);
+        const CCoins* coins = view.AccessCoins(winningNode->vin.prevout.hash);
+        assert(coins);
+        
+        CAmount masterBalance = coins->vout[winningNode->vin.prevout.n].nValue;
+        totalMasternodeStake += masterBalance;
+    }
+
+    CAmount masternodePaymentRate = 0;
+    CAmount masterStakeOfTotalsupplyPercentage = (totalMasternodeStake/totalMoneySupply) * 100;
+    CAmount totalSecondsInYear = 31536000;
+    CAmount multiplier = 100000;
+
+    if (masterStakeOfTotalsupplyPercentage < 1)
+    {
+        CAmount divider = 1*totalSecondsInYear;
+        masternodePaymentRate = (multiplier * 300 * blockrate)/divider;
+    } else if (masterStakeOfTotalsupplyPercentage >=1 && masterStakeOfTotalsupplyPercentage < 3) {
+        CAmount divider = (1 - (3/(4*masterStakeOfTotalsupplyPercentage)))*totalSecondsInYear;
+        masternodePaymentRate = multiplier * ((75 * blockrate)/divider);
+    } else if (masterStakeOfTotalsupplyPercentage >=3 && masterStakeOfTotalsupplyPercentage < 10) {
+        CAmount divider = 17*(1 - (30/(17*masterStakeOfTotalsupplyPercentage)))*totalSecondsInYear;
+        masternodePaymentRate = multiplier * ((700 * blockrate)/divider);
+    } else if (masterStakeOfTotalsupplyPercentage >=10 && masterStakeOfTotalsupplyPercentage < 50) {
+        CAmount divider = 119*(1 - (950/(119*masterStakeOfTotalsupplyPercentage)))*totalSecondsInYear;
+        masternodePaymentRate = multiplier * ((1200 * blockrate)/divider);
+    } else {
+        CAmount divider = 7*(1 - (300/(7*masterStakeOfTotalsupplyPercentage)))*totalSecondsInYear;
+        masternodePaymentRate = multiplier * ((12 * blockrate)/divider);
+    }
+
+    LogPrintf("== masternodePaymentRate === %u === toatal staked ==== %u ==== blockrate === %u", masternodePaymentRate, totalMasternodeStake, blockrate);
+    for(int index=0; index < masterNodeCount; index++) {
+        CMasternode* winningNode = mnodeman.GetMasterNodeByIndex(index);
+        if (winningNode) {
             payee = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
         } else {
             LogPrint("masternode","CreateNewBlock: Failed to detect masternode to pay\n");
@@ -378,10 +423,11 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
         assert(coins);
 
         blockrate = blockrate == 0 ? 1 : blockrate; 
+        
         CAmount masterBalance = coins->vout[winningNode->vin.prevout.n].nValue;
-        CAmount masternodePayment = 0.000000077160493827 * masterBalance * blockrate;
-
-        // CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight, blockValue, 0, fZPIVStake);
+        
+        CAmount masternodeStake = masterBalance;
+        CAmount masternodePayment = (masternodePaymentRate * masterBalance) / (multiplier *100);
 
         if (hasPayment) {
             if (fProofOfStake) {
@@ -399,7 +445,7 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
                 txNew.vout.resize(2);
                 txNew.vout[1].scriptPubKey = payee;
                 txNew.vout[1].nValue = masternodePayment;
-                txNew.vout[0].nValue = blockValue - masternodePayment;
+                txNew.vout[0].nValue = (blockValue - masternodePayment) < 0 ? 0 : (blockValue - masternodePayment);
             }
 
             CTxDestination address1;
@@ -409,9 +455,9 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
             LogPrint("masternode","Masternode payment of %s to %s\n", FormatMoney(masternodePayment).c_str(), address2.ToString().c_str());
         }
     }
-    if(fProofOfStake) {
-        txNew.vout[1].nValue -= masternodeCredit;
-    }
+    // if(fProofOfStake) {
+    //     txNew.vout[1].nValue -= masternodeCredit;
+    // }
 }
 
 int CMasternodePayments::GetMinMasternodePaymentsProto()

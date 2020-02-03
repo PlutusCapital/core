@@ -52,11 +52,11 @@ void CActiveMasternode::ManageStatus()
             return;
         }
 
-        if (pwalletMain->GetBalance() == 0) {
-            notCapableReason = "Hot node, waiting for remote activation.";
-            LogPrintf("CActiveMasternode::ManageStatus() - not capable: %s\n", notCapableReason);
-            return;
-        }
+        // if (pwalletMain->GetBalance() == 0) {
+        //     notCapableReason = "Hot node, waiting for remote activation.";
+        //     LogPrintf("CActiveMasternode::ManageStatus() - not capable: %s\n", notCapableReason);
+        //     return;
+        // }
 
         if (strMasterNodeAddr.empty()) {
             if (!GetLocal(service)) {
@@ -443,6 +443,7 @@ std::vector<COutput> CActiveMasternode::SelectCoinsMasternode()
 
     // Temporary unlock MN coins from masternode.conf
     if (GetBoolArg("-mnconflock", true)) {
+        LogPrintf("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         uint256 mnTxHash;
         for (CMasternodeConfig::CMasternodeEntry mne : masternodeConfig.getEntries()) {
             mnTxHash.SetHex(mne.getTxHash());

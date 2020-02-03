@@ -318,8 +318,9 @@ void CMasternodeMan::CheckAndRemove(bool forceExpiredRemoval)
     std::map<uint256, CMasternodeBroadcast>::iterator it3 = mapSeenMasternodeBroadcast.begin();
     while (it3 != mapSeenMasternodeBroadcast.end()) {
         if ((*it3).second.lastPing.sigTime < GetTime() - (MASTERNODE_REMOVAL_SECONDS * 2)) {
-            mapSeenMasternodeBroadcast.erase(it3++);
-            masternodeSync.mapSeenSyncMNB.erase((*it3).second.GetHash());
+            ++it3;
+            // mapSeenMasternodeBroadcast.erase(it3++);
+            // masternodeSync.mapSeenSyncMNB.erase((*it3).second.GetHash());
         } else {
             ++it3;
         }
@@ -329,7 +330,8 @@ void CMasternodeMan::CheckAndRemove(bool forceExpiredRemoval)
     std::map<uint256, CMasternodePing>::iterator it4 = mapSeenMasternodePing.begin();
     while (it4 != mapSeenMasternodePing.end()) {
         if ((*it4).second.sigTime < GetTime() - (MASTERNODE_REMOVAL_SECONDS * 2)) {
-            mapSeenMasternodePing.erase(it4++);
+            ++it4;
+            // mapSeenMasternodePing.erase(it4++);
         } else {
             ++it4;
         }
@@ -744,6 +746,8 @@ void CMasternodeMan::ProcessMasternodeConnections()
 
 void CMasternodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
+
+    LogPrintf("================################################################3==============  %s", strCommand);
     if (fLiteMode) return; //disable all Obfuscation/Masternode related functionality
     if (!masternodeSync.IsBlockchainSynced()) return;
 
@@ -1006,7 +1010,7 @@ void CMasternodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CData
 
         CValidationState state;
         CMutableTransaction tx = CMutableTransaction();
-        CTxOut vout = CTxOut(9999.99 * COIN, obfuScationPool.collateralPubKey);
+        CTxOut vout = CTxOut(999.99 * COIN, obfuScationPool.collateralPubKey);
         tx.vin.push_back(vin);
         tx.vout.push_back(vout);
 

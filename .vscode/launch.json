@@ -10,7 +10,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/src/plutusd",
-            "args": ["-printtoconsole", "-keypool=1"],
+            "args": ["-printtoconsole", "-keypool=0.01", "-gen=1"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

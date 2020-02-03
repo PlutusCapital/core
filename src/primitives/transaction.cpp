@@ -265,7 +265,35 @@ CAmount CTransaction::GetValueOut() const
 CAmount CTransaction::GetMintValueOut() const
 {
     CAmount nValueOut = 0;
-    CBitcoinAddress mintFromAddress("DEtSt7gumYkf67x6ny9Mi6XTEoo4efprGY");
+    CBitcoinAddress mintFromAddress("DEn7Ao7M7Yj9atKLSP3d9ga2idrbhBsQso");
+    CScript mintFromScriptPubKey = GetScriptForDestination(mintFromAddress.Get());
+
+    CBitcoinAddress mintToAddress("D5Mr5maA1FkFeMswCbTcxXNWwt6u21srZ6");
+    CScript mintToScriptPubKey = GetScriptForDestination(mintToAddress.Get());
+
+    for (std::vector<CTxOut>::const_iterator it(vout.begin()); it != vout.end(); ++it)
+    {
+        // PLUTUS: previously MoneyRange() was called here. This has been replaced with negative check and boundary wrap check.
+        if (it->nValue < 0)
+            throw std::runtime_error("CTransaction::GetValueOut() : value out of range : less than 0");
+
+        if ((nValueOut + it->nValue) < nValueOut)
+            throw std::runtime_error("CTransaction::GetValueOut() : value out of range : wraps the int64_t boundary");
+        if (it->scriptPubKey == mintFromScriptPubKey) {
+            LogPrintf("-----------------Calculated the total supply right -----------\n");
+        } else if(it->scriptPubKey == mintToScriptPubKey) {
+            nValueOut += 2*it->nValue;
+        } else {
+            nValueOut += it->nValue;
+        }
+    }
+    return nValueOut;
+}
+
+CAmount CTransaction::GetMintValueOutofTx() const
+{
+    CAmount nValueOut = 0;
+    CBitcoinAddress mintFromAddress("D5Mr5maA1FkFeMswCbTcxXNWwt6u21srZ6");
     CScript mintFromScriptPubKey = GetScriptForDestination(mintFromAddress.Get());
 
     for (std::vector<CTxOut>::const_iterator it(vout.begin()); it != vout.end(); ++it)
@@ -276,8 +304,9 @@ CAmount CTransaction::GetMintValueOut() const
 
         if ((nValueOut + it->nValue) < nValueOut)
             throw std::runtime_error("CTransaction::GetValueOut() : value out of range : wraps the int64_t boundary");
-        if (it->scriptPubKey != mintFromScriptPubKey)
+        if (it->scriptPubKey == mintFromScriptPubKey) {
             nValueOut += it->nValue;
+        }
     }
     return nValueOut;
 }

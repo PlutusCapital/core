@@ -166,6 +166,7 @@ public:
     uint256 hashProofOfStake;
     int64_t nMint;
     int64_t nMoneySupply;
+    int64_t nActualMoneySupply;
     uint256 nStakeModifierV2;
 
     //! block header
@@ -200,6 +201,7 @@ public:
 
         nMint = 0;
         nMoneySupply = 0;
+        nActualMoneySupply = 0;
         nFlags = 0;
         nStakeModifier = 0;
         nStakeModifierV2 = uint256();
@@ -468,6 +470,7 @@ public:
 
         READWRITE(nMint);
         READWRITE(nMoneySupply);
+        READWRITE(nActualMoneySupply);
         READWRITE(nFlags);
 
         // v1/v2 modifier selection.

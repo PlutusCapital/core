@@ -6,13 +6,13 @@
 
 # *.tar.gz
 
-# *.exe
-# src/plutus
-# src/plutusd
-# src/plutus-cli
-# src/plutus-tx
-# src/test/test_plutus
-# src/qt/test/test_plutus-qt
+*.exe
+src/plutus
+src/plutusd
+src/plutus-cli
+src/plutus-tx
+src/test/test_plutus
+src/qt/test/test_plutus-qt
 
 # # autoreconf
 # Makefile.in

@@ -6,6 +6,7 @@
 #include "coins.h"
 
 #include "random.h"
+#include "base58.h"
 
 #include <assert.h>
 

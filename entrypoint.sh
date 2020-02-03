@@ -21,4 +21,4 @@ echo "rpcallowip=0.0.0.0/0" >> ./plutus.conf
 echo "rpcbind=0.0.0.0" >> ./plutus.conf
 
 mv ./plutus.conf ./.plutus
-./plutusd -datadir=./.plutus -printtoconsole
+exec ./plutusd -datadir=./.plutus -printtoconsole

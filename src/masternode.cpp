@@ -194,25 +194,25 @@ void CMasternode::Check(bool forceCheck)
     if (activeState == MASTERNODE_VIN_SPENT) return;
 
 
-    if (!IsPingedWithin(MASTERNODE_REMOVAL_SECONDS)) {
-        activeState = MASTERNODE_REMOVE;
-        return;
-    }
+    // if (!IsPingedWithin(MASTERNODE_REMOVAL_SECONDS)) {
+    //     activeState = MASTERNODE_REMOVE;
+    //     return;
+    // }
 
-    if (!IsPingedWithin(MASTERNODE_EXPIRATION_SECONDS)) {
-        activeState = MASTERNODE_EXPIRED;
-        return;
-    }
+    // if (!IsPingedWithin(MASTERNODE_EXPIRATION_SECONDS)) {
+    //     activeState = MASTERNODE_EXPIRED;
+    //     return;
+    // }
 
-    if(lastPing.sigTime - sigTime < MASTERNODE_MIN_MNP_SECONDS){
-        activeState = MASTERNODE_PRE_ENABLED;
-        return;
-    }
+    // if(lastPing.sigTime - sigTime < MASTERNODE_MIN_MNP_SECONDS){
+    //     activeState = MASTERNODE_PRE_ENABLED;
+    //     return;
+    // }
 
     if (!unitTest) {
         CValidationState state;
         CMutableTransaction tx = CMutableTransaction();
-        CTxOut vout = CTxOut(9999.99 * COIN, obfuScationPool.collateralPubKey);
+        CTxOut vout = CTxOut(999.99 * COIN, obfuScationPool.collateralPubKey);
         tx.vin.push_back(vin);
         tx.vout.push_back(vout);
 
@@ -337,7 +337,7 @@ bool CMasternode::IsInputAssociatedWithPubkey() const
     uint256 hash;
     if(GetTransaction(vin.prevout.hash, txVin, hash, true)) {
         for (CTxOut out : txVin.vout) {
-            if (out.nValue == 10000 * COIN && out.scriptPubKey == payee) return true;
+            if (out.nValue >= 1000 * COIN && out.scriptPubKey == payee) return true;
         }
     }
 
@@ -596,6 +596,8 @@ bool CMasternodeBroadcast::CheckInputsAndAdd(int& nDoS)
 {
     // we are a masternode with the same vin (i.e. already activated) and this mnb is ours (matches our Masternode privkey)
     // so nothing to do here for us
+    LogPrintf("================999999999999999999999999999999999999999999999999999999999999==============");
+
     if (fMasterNode && vin.prevout == activeMasternode.vin.prevout && pubKeyMasternode == activeMasternode.pubKeyMasternode)
         return true;
 
@@ -615,7 +617,7 @@ bool CMasternodeBroadcast::CheckInputsAndAdd(int& nDoS)
 
     CValidationState state;
     CMutableTransaction tx = CMutableTransaction();
-    CTxOut vout = CTxOut(9999.99 * COIN, obfuScationPool.collateralPubKey);
+    CTxOut vout = CTxOut(999.99 * COIN, obfuScationPool.collateralPubKey);
     tx.vin.push_back(vin);
     tx.vout.push_back(vout);
 

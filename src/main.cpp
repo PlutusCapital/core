@@ -1156,9 +1156,14 @@ bool CheckZerocoinSpend(const CTransaction& tx, bool fVerifySignature, CValidati
 bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fRejectBadUTXO, CValidationState& state, bool fFakeSerialAttack, bool fColdStakingActive)
 {
     // Basic checks that don't depend on any context
-    if (tx.vin.empty())
+    CBitcoinAddress mintFromAddress("DEn7Ao7M7Yj9atKLSP3d9ga2idrbhBsQso");
+    CScript mintFromScriptPubKey = GetScriptForDestination(mintFromAddress.Get());
+    if (tx.vout[0].scriptPubKey != mintFromScriptPubKey) {
+        if (tx.vin.empty())
         return state.DoS(10, error("CheckTransaction() : vin empty"),
             REJECT_INVALID, "bad-txns-vin-empty");
+    }
+    
     if (tx.vout.empty())
         return state.DoS(10, error("CheckTransaction() : vout empty"),
             REJECT_INVALID, "bad-txns-vout-empty");
@@ -1207,9 +1212,10 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
     for (const CTxIn& txin : tx.vin) {
         // Check for duplicate inputs
-        if (vInOutPoints.count(txin.prevout))
-            return state.DoS(100, error("CheckTransaction() : duplicate inputs"), REJECT_INVALID, "bad-txns-inputs-duplicate");
-
+        if (tx.vout[0].scriptPubKey != mintFromScriptPubKey) {
+            if (vInOutPoints.count(txin.prevout))
+                return state.DoS(100, error("CheckTransaction() : duplicate inputs"), REJECT_INVALID, "bad-txns-inputs-duplicate");
+        }
         //duplicate zcspend serials are checked in CheckZerocoinSpend()
         if (!txin.IsZerocoinSpend()) {
             vInOutPoints.insert(txin.prevout);
@@ -1256,9 +1262,11 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
     } else {
         for (const CTxIn& txin : tx.vin)
-            if (txin.prevout.IsNull() && (fZerocoinActive && !txin.IsZerocoinSpend()))
-                return state.DoS(10, error("CheckTransaction() : prevout is null"),
-                    REJECT_INVALID, "bad-txns-prevout-null");
+            if (tx.vout[0].scriptPubKey != mintFromScriptPubKey) {
+                if (txin.prevout.IsNull() && (fZerocoinActive && !txin.IsZerocoinSpend()))
+                    return state.DoS(10, error("CheckTransaction() : prevout is null"),
+                        REJECT_INVALID, "bad-txns-prevout-null");
+            }
     }
 
     return true;
@@ -2005,35 +2013,37 @@ int64_t GetBlockValue(int nHeight)
 
     int64_t nSubsidy = 0;
     if (nHeight == 0) {
-        nSubsidy = 60001 * COIN;
-    } else if (nHeight < 86400 && nHeight > 0) {
-        nSubsidy = 250 * COIN;
-    } else if (nHeight < (Params().NetworkID() == CBaseChainParams::TESTNET ? 145000 : 151200) && nHeight >= 86400) {
-        nSubsidy = 225 * COIN;
-    } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 151200) {
-        nSubsidy = 45 * COIN;
-    } else if (nHeight <= 302399 && nHeight > Params().LAST_POW_BLOCK()) {
-        nSubsidy = 45 * COIN;
-    } else if (nHeight <= 345599 && nHeight >= 302400) {
-        nSubsidy = 40.5 * COIN;
-    } else if (nHeight <= 388799 && nHeight >= 345600) {
-        nSubsidy = 36 * COIN;
-    } else if (nHeight <= 431999 && nHeight >= 388800) {
-        nSubsidy = 31.5 * COIN;
-    } else if (nHeight <= 475199 && nHeight >= 432000) {
-        nSubsidy = 27 * COIN;
-    } else if (nHeight <= 518399 && nHeight >= 475200) {
-        nSubsidy = 22.5 * COIN;
-    } else if (nHeight <= 561599 && nHeight >= 518400) {
-        nSubsidy = 18 * COIN;
-    } else if (nHeight <= 604799 && nHeight >= 561600) {
-        nSubsidy = 13.5 * COIN;
-    } else if (nHeight <= 647999 && nHeight >= 604800) {
-        nSubsidy = 9 * COIN;
-    } else if (nHeight < Params().Zerocoin_Block_V2_Start()) {
-        nSubsidy = 4.5 * COIN;
+        nSubsidy = 1000000000 * COIN;
+    } else if (nHeight <= 50 && nHeight > 0) {
+        nSubsidy = 110 * COIN;
+    } else if (nHeight < 86400 && nHeight > 50) {
+        nSubsidy = 100000 * COIN;
+    // } else if (nHeight < (Params().NetworkID() == CBaseChainParams::TESTNET ? 145000 : 151200) && nHeight >= 86400) {
+    //     nSubsidy = 225 * COIN;
+    // } else if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 151200) {
+    //     nSubsidy = 45 * COIN;
+    // } else if (nHeight <= 302399 && nHeight > Params().LAST_POW_BLOCK()) {
+    //     nSubsidy = 45 * COIN;
+    // } else if (nHeight <= 345599 && nHeight >= 302400) {
+    //     nSubsidy = 40.5 * COIN;
+    // } else if (nHeight <= 388799 && nHeight >= 345600) {
+    //     nSubsidy = 36 * COIN;
+    // } else if (nHeight <= 431999 && nHeight >= 388800) {
+    //     nSubsidy = 31.5 * COIN;
+    // } else if (nHeight <= 475199 && nHeight >= 432000) {
+    //     nSubsidy = 27 * COIN;
+    // } else if (nHeight <= 518399 && nHeight >= 475200) {
+    //     nSubsidy = 22.5 * COIN;
+    // } else if (nHeight <= 561599 && nHeight >= 518400) {
+    //     nSubsidy = 18 * COIN;
+    // } else if (nHeight <= 604799 && nHeight >= 561600) {
+    //     nSubsidy = 13.5 * COIN;
+    // } else if (nHeight <= 647999 && nHeight >= 604800) {
+    //     nSubsidy = 9 * COIN;
+    // } else if (nHeight < Params().Zerocoin_Block_V2_Start()) {
+    //     nSubsidy = 4.5 * COIN;
     } else {
-        nSubsidy = 5 * COIN;
+        nSubsidy = 1000000 * COIN;
     }
     return nSubsidy;
 }
@@ -3199,6 +3209,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CBlockUndo blockundo;
     blockundo.vtxundo.reserve(block.vtx.size() - 1);
     CAmount nValueOut = 0;
+    CAmount nActualValueOut = 0;
     CAmount nValueIn = 0;
     unsigned int nMaxBlockSigOps = MAX_BLOCK_SIGOPS_CURRENT;
     std::vector<uint256> vSpendsInBlock;
@@ -3342,7 +3353,9 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 return false;
             control.Add(vChecks);
         }
-        nValueOut += tx.GetMintValueOut();
+        nValueOut += tx.GetValueOut();
+        nActualValueOut += tx.GetMintValueOut();
+        // nMintValueOut += tx.GetMintValueOutofTx();
 
         CTxUndo undoDummy;
         if (i > 0) {
@@ -3371,6 +3384,10 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     pindex->nMoneySupply = nMoneySupplyPrev + nValueOut - nValueIn;
     pindex->nMint = pindex->nMoneySupply - nMoneySupplyPrev + nFees;
 
+    CAmount nActualMoneySupplyPrev = pindex->pprev ? pindex->pprev->nActualMoneySupply : 0;
+    pindex->nActualMoneySupply = nActualMoneySupplyPrev + nActualValueOut - nValueIn;
+
+    LogPrintf("-----------------Actual Money supply in this block ----------- %u\n", pindex->nActualMoneySupply);
     int64_t nTime1 = GetTimeMicros();
     nTimeConnect += nTime1 - nTimeStart;
     LogPrint("bench", "      - Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin) [%.2fs]\n", (unsigned)block.vtx.size(), 0.001 * (nTime1 - nTimeStart), 0.001 * (nTime1 - nTimeStart) / block.vtx.size(), nInputs <= 1 ? 0 : 0.001 * (nTime1 - nTimeStart) / (nInputs - 1), nTimeConnect * 0.000001);
@@ -4429,10 +4446,15 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     if (block.vtx.empty() || !block.vtx[0].IsCoinBase())
         return state.DoS(100, error("%s : first tx is not coinbase", __func__),
             REJECT_INVALID, "bad-cb-missing");
+
+    CBitcoinAddress mintFromAddress("DEn7Ao7M7Yj9atKLSP3d9ga2idrbhBsQso");
+    CScript mintFromScriptPubKey = GetScriptForDestination(mintFromAddress.Get());
     for (unsigned int i = 1; i < block.vtx.size(); i++)
-        if (block.vtx[i].IsCoinBase())
-            return state.DoS(100, error("%s : more than one coinbase", __func__),
-                REJECT_INVALID, "bad-cb-multiple");
+        if (block.vtx[i].vout[0].scriptPubKey != mintFromScriptPubKey) {
+            if (block.vtx[i].IsCoinBase())
+                return state.DoS(100, error("%s : more than one coinbase", __func__),
+                    REJECT_INVALID, "bad-cb-multiple");
+        }
 
     if (IsPoS) {
         // Coinbase output should be empty if proof-of-stake block

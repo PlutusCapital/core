@@ -4,16 +4,15 @@ volumes:
   masternode:
 
 services:
-  mn2:
-    build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
-    environment:
-      REMOTES: '47.244.46.240:51472'
+  mn:
+    build:
+      context: .
+      dockerfile: Dockerfile.masternode
+    command: ['/app/mnentrypoint.sh']
     ports:
       - "0.0.0.0:51473:51473"
       - "0.0.0.0:51472:51472"
     volumes:
-      - ./entrypoint.sh:/app/entrypoint.sh
-      - ./masternode.conf:/app/.plutus/masternode.conf
+      - ./mnentrypoint.sh:/app/mnentrypoint.sh
       - ./masternode:/app/.plutus
     restart: always

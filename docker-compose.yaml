@@ -12,7 +12,7 @@ volumes:
 services:
   n0:
     build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
+    command: [/app/entrypoint.sh]
     ports:
       - "0.0.0.0:51473:51473"
       - "0.0.0.0:51472:51472"
@@ -23,7 +23,7 @@ services:
 
   n1:
     build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
+    command: [/app/entrypoint.sh]
     environment:
       REMOTES: '47.89.27.192:51472'
     ports:
@@ -36,7 +36,7 @@ services:
 
   n2:
     build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
+    command: [/app/entrypoint.sh]
     environment:
       REMOTES: '47.56.69.103:51472'
     ports:
@@ -49,75 +49,13 @@ services:
 
   n3:
     build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
+    command: [/app/entrypoint.sh]
     environment:
       REMOTES: '47.244.129.103:51472'
     ports:
-      - "0.0.0.0:51475:51473"
-      - "0.0.0.0:51474:51472"
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
       - ./plutus3-data:/app/.plutus
     restart: always
-
-  n4:
-    build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
-    environment:
-      REMOTES: '47.244.129.103:51472'
-    ports:
-      - "0.0.0.0:51473:51473"
-      - "0.0.0.0:51472:51472"
-    volumes:
-      - ./entrypoint.sh:/app/entrypoint.sh
-      - ./plutus4-data:/app/.plutus
-    restart: always
-
-  n5:
-    build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
-    environment:
-      REMOTES: '47.56.69.103:51472, 47.89.27.192:51472, 47.244.129.103:51472, 47.56.71.159:51472'
-    ports:
-      - "0.0.0.0:51473:51473"
-      - "0.0.0.0:51472:51472"
-    volumes:
-      - ./entrypoint.sh:/app/entrypoint.sh
-      - ./plutus5-data:/app/.plutus
-    restart: always
-
-  mn1:
-    build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
-    environment:
-      REMOTES: '47.89.27.192:51472, 47.244.129.103:51472, 47.56.71.159:51472'
-    ports:
-      - "0.0.0.0:11012:51473"
-      - "0.0.0.0:11011:51472"
-    volumes:
-      - ./entrypoint.sh:/app/entrypoint.sh
-      - ./masternode1.conf:/app/.plutus/masternode.conf
-    restart: always
-
-  mn2:
-    build: .
-    command: ['sh', '-c', '/app/entrypoint.sh']
-    environment:
-      REMOTES: '47.56.69.103:51472, 47.89.27.192:51472, 47.56.71.159:51472'
-    ports:
-      - "0.0.0.0:11012:51473"
-      - "0.0.0.0:11011:51472"
-    volumes:
-      - ./entrypoint.sh:/app/entrypoint.sh
-      - ./masternode2.conf:/app/.plutus/masternode.conf
-    restart: always
-
-  # explorer:
-  #   build: ../explorer/.
-  #   command: ['sh', '-c', 'sleep 10 && ./blockbook -sync -blockchaincfg=./blockchaincfg.json -internal=:9030 -public=:9130 -logtostderr']
-  #   volumes:
-  #     - ../blockbook/build/blockchaincfg.json:/build/blockchaincfg.json
-  #     - explorer-data:/build/data
-  #   ports:
-  #     - "0.0.0.0:9030:9030"
-  #     - "0.0.0.0:80:9130"

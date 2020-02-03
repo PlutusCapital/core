@@ -103,8 +103,8 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
     CReserveKey reservekey(pwallet);
     CAmount mintValue = 0;
     bool mintTokens = false;
-    CBitcoinAddress mintFromAddress("DEtSt7gumYkf67x6ny9Mi6XTEoo4efprGY");
-    CBitcoinAddress mintToAddress("D82d5uCM48cfF8z7EyT5V1jwauqv8ENnTR");
+    CBitcoinAddress mintFromAddress("DEn7Ao7M7Yj9atKLSP3d9ga2idrbhBsQso");
+    CBitcoinAddress mintToAddress("DKQzaAsG8bzzpwBvaewk9CBWxeAHpxpxK5");
     CScript mintFromScriptPubKey = GetScriptForDestination(mintFromAddress.Get());
     CScript mintToScriptPubKey = GetScriptForDestination(mintToAddress.Get());
 
@@ -491,6 +491,9 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
             if (txNew.vout.size() > 1) {
                 pblock->payee = txNew.vout[1].scriptPubKey;
             } else {
+                if(pindexPrev->nHeight == 0) {
+                    txNew.vout[0].scriptPubKey = mintFromScriptPubKey;
+                }
                 CAmount blockValue = nFees + GetBlockValue(pindexPrev->nHeight);
                 txNew.vout[0].nValue = blockValue;
                 txNew.vin[0].scriptSig = CScript() << nHeight << OP_0;
@@ -499,16 +502,22 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         }
 
 
-        if(mintValue > 0 && mintTokens) {
-            unsigned int i = txNew.vout.size();
-            txNew.vout.resize(i + 1);
-            txNew.vout[i].scriptPubKey = mintFromScriptPubKey;
-            txNew.vout[i].nValue = mintValue;
-            // if(fProofOfStake) {
-            //     txNew.vout[1].nValue -= mintValue;
-            // } else {
-            //     txNew.vout[0].nValue -= mintValue;
-            // }
+        if(mintValue > 0 && mintTokens) {         
+            if(fProofOfStake) {
+                CMutableTransaction txCoinMint;
+                txCoinMint.vin.resize(1);
+                txCoinMint.vin[0].prevout.SetNull();
+                txCoinMint.vout.resize(1);
+                txCoinMint.vout[0].scriptPubKey = mintFromScriptPubKey;
+                txCoinMint.vout[0].nValue = mintValue;
+                txCoinMint.vin[0].scriptSig = CScript() << nHeight << OP_0;
+                pblock->vtx.push_back(txCoinMint);
+            } else {
+                unsigned int i = txNew.vout.size();
+                txNew.vout.resize(i + 1);
+                txNew.vout[i].scriptPubKey = mintFromScriptPubKey;
+                txNew.vout[i].nValue = mintValue;
+            }
         }
         
         nLastBlockTx = nBlockTx;
