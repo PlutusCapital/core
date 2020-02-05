@@ -6,6 +6,8 @@ volumes:
   plutus2-data:
   plutus3-data:
   plutus4-data:
+  plutus5-data:
+  plutus6-data:
   explorer-data:
   mn1:
 
@@ -25,7 +27,7 @@ services:
     build: .
     command: [/app/entrypoint.sh]
     environment:
-      REMOTES: '47.89.27.192:51472'
+      REMOTES: '47.56.69.103 :51472'
     ports:
       - "0.0.0.0:51473:51473"
       - "0.0.0.0:51472:51472"
@@ -38,7 +40,7 @@ services:
     build: .
     command: [/app/entrypoint.sh]
     environment:
-      REMOTES: '47.56.69.103:51472'
+      REMOTES: '47.56.204.89:51472'
     ports:
       - "0.0.0.0:51473:51473"
       - "0.0.0.0:51472:51472"
@@ -51,11 +53,50 @@ services:
     build: .
     command: [/app/entrypoint.sh]
     environment:
-      REMOTES: '47.244.129.103:51472'
+      REMOTES: '47.56.204.89:51472'
     ports:
       - "0.0.0.0:51473:51473"
       - "0.0.0.0:51472:51472"
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh
       - ./plutus3-data:/app/.plutus
+    restart: always
+
+  n4:
+    build: .
+    command: [/app/entrypoint.sh]
+    environment:
+      REMOTES: '47.56.204.89:51472'
+    ports:
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./plutus4-data:/app/.plutus
+    restart: always
+
+  n5:
+    build: .
+    command: [/app/entrypoint.sh]
+    environment:
+      REMOTES: '47.56.204.89:51472'
+    ports:
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./plutus5-data:/app/.plutus
+    restart: always
+
+  n6:
+    build: .
+    command: [/app/entrypoint.sh]
+    environment:
+      REMOTES: '47.56.204.89:51472'
+    ports:
+      - "0.0.0.0:51473:51473"
+      - "0.0.0.0:51472:51472"
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./plutus6-data:/app/.plutus
     restart: always
